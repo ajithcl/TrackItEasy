@@ -1,0 +1,108 @@
+$def with (pageinput)
+<div class="container">
+    $if session["user"] == None:
+        <img src="/static/Common/expense.jpg" class="img-fluid">
+        <br> <br><br>
+        <p class="text-center"> <a href="/login">Login</a> to track you expenses.</p>
+    $else:
+        <div class="row" id="expensesummarydiv">
+            <div class="col-lg-8">
+                <h2 class = "text-secondary">Total amount spent for current month:</h2>
+            </div>
+            <div class="col-lg-4">
+                <p class="display-4 text-danger"> Rs. $pageinput["CurrentMonthAmount"] </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="border-top my-3"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6" style="background-color:#EBF5FB">
+                <form id="expense_entry_form">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <p class="text-center lead text-dark">Expense Entry</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <p>Amount:</p>
+                        </div>
+                        <div class="col-lg-10">
+                            <input type="number" class="form-control" placeholder="amount spent" name="Amount">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <p>Date:</p>
+                        </div>
+                        <div class="col-lg-10">
+                            <input type="date" class="form-control" placeholder="Date" name="ExpenseDate">
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col-lg-2">
+                            Category:
+                        </div>
+                        <div class="col-lg-10">
+                            <select name="Category">
+                                <option value="Others">Others</option>
+                                <option value="OutsideFood">Outside Food</option>
+                                <option value="Food">Food</option>
+                                <option value="Vegetables">Vegetables</option>
+                                <option value="Rent">Rent</option>
+                                <option value="Loan_Emi">Loan/Emi</option>
+                                <option value="Groceries">Groceries</option>
+                                <option value="Dress">Dress</option>
+                                <option value="Fuel">Fuel</option>
+                                <option value="Gym ">Gym</option>
+                                <option value="Medicine">Medicine</option>
+                                <option value="Electricity">Electricity</option>
+                                <option value="BodyCare">Body care</option>
+                                <option value="Mobile recharge">Mobile recharge</option>
+                                <option value="Internet">Internet</option>
+                                <option value="Vehicle">Vehicle</option>
+                                <option value="Gas">Gas</option>
+                                <option value="Movies">Movies</option>
+                                <option value="Family">Family</option>
+                            </select>
+                        </div>
+                    </div>
+                    <br/>
+                    <p>Description: </p>
+                    <textarea class="form-control" aria-label="Enter the description" name="Description"></textarea>
+                    <br>
+                    <div style="margin:auto;width:20%;">
+                        <button type="submit" class="btn btn-outline-primary">Save</button>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-3"></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="border-top my-3"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12" id="currentmonthexpensesummary">
+                <p class="text-center text-dark lead" id="currmnthexpensetxt">Click <a href="#" onclick='showMonthlyExpenseDetails()'>here</a> for viewing current month details</p>
+                <table class="table table-striped" hidden="true" id="curmonexpensetable">
+                    <thead>
+                        <th>Amount</th>
+                        <th>Date</th>
+                        <th>Category</th>
+                        <th>Description</th>
+                    </thead>
+                    <tbody id="tbodyexpensedetail">
+                    </tbody>
+                </table>
+                <div class="border-top my-3"></div>
+            </div>
+        </div>
+</div>

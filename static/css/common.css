@@ -1,0 +1,54 @@
+custom_width{
+    width: 100px;
+}
+
+.bgcolor_milk{
+    background-color:#FEFCFF;
+}
+
+.bgcolor_light_color1{
+    /*background-color:rgba(240, 255, 51, 0.2);*/  /*Yellow color*/
+    background-color:rgb(240,255,255);             /*Light blue color*/
+}
+
+.border1{
+    border : grey;
+    border-style : groove ;
+    border-width : 1px;
+    border-radius : 5px;
+}
+
+.font1{
+    font-size : 20px;
+    font-style : italic;
+    font-family : Arial, Helvetica, sans-serif;
+    color : Green;
+}
+
+.shadow-textarea textarea.form-control::placeholder {
+    font-weight: 300;
+}
+.shadow-textarea textarea.form-control {
+    padding-left: 0.8rem;
+}
+
+
+/* Change the cursor symbol to hand */
+.cursor-to-pointer {
+    cursor : pointer;
+}
+
+/* icon on button*/
+.btn_icon{
+  background-color: cornsilk;
+  border: none;
+  color: salmon;
+  padding: 12px 16px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+/* Dark color on btn_icon hover*/
+.btn_icon:hover{
+  background-color: red;
+}

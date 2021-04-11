@@ -1,0 +1,189 @@
+$def with (data)
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            $if session["user"] == None:
+                <br>
+                <p class = "text-center">Please <a href = "/login">login </a> to see your summary and progress made so far.. </p>
+                <hr>
+        </div>
+    </div>
+    $if session["user"] != None:
+        <div class="row">
+            <div class="col-lg-12">
+                <br>
+            </div>
+        </div>
+        <div class="row border1">
+            <div class="col-lg-12 bgcolor_light_color1">
+                <h2><small><span id="set-greetings"></span> $session["user"]["UserId"],</small></h2>
+                <p class="font-italic text-primary">You visited last time on $data["LastTimeVisit"]</p>
+                <p class="font-italic text-primary">$data["LastFeelingUpdate"]. Click <a href="/feelings">here</a> to update. </p>
+                <p class="font-italic text-primary">Last time backup took on date.Click to back up now.</p>
+                $if data["ExpenseWarning"] == True:
+                <p class="font-italic text-danger"><b>Monthly expense warning!</b></p>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="text-primary"> <small> <a href="/expenses">Expenses</a> </small></h2>
+                <br>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-5">
+                <h4><small>Total expense for the current month:</small></h4>
+            </div>
+            <div class="col-lg-7">
+                <h2 class="text-danger">Rs. $data["ExpenseCurrentMonthAmount"]</h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card-columns">
+                    $for key in data["ExpenseCategoryAmounts"]:
+                          $if '__max' in key:
+                              <div class="card bg-danger">
+                          $else:
+                              <div class="card bg-light">
+                          <div class="card-body text-center">
+                              <h4 class="card-title">$key.strip("__max")</h4>
+                              <p class="card-text">Rs. $data["ExpenseCategoryAmounts"][key]</p>
+                          </div>
+                          </div>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-lg-12 font1">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">Today's expense: Rs.$data["TodaysExpense"]</li>
+                    <li class="list-group-item">Last month expense: Rs.$data["ExpenseLastMonthAmount"]</li>
+                    <li class="list-group-item">Average monthly expense (current year) : Rs.$data["MonthlyAverageExpense"]</li>
+                    <li class="list-group-item">Weekly budget : Rs.$data["WeeklyBudget"]</li>
+                </ul>
+                $if data["ExpenseYearGraph"] == "success":
+                    <img src="static/temp/expense.png">
+            </div>
+            <br>
+        </div>
+         <hr>
+        <div class="row">
+            <div class="col-lg-11">
+                <h2 class="text-primary"> <small> <a href="/reminders">Reminders</a> </small></h2>
+            </div>
+            <div class="col-lg-1">
+                <img src="/static/Common/Bell.png" class="img-fluid">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                $if data["ReminderList"] == None:
+                    <h4>No reminders</h4>
+                $else:
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Event Name</th>
+                                <th>Due on</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        $for record in data["ReminderList"]:
+                            <tr>
+                                <td>$record["ReminderId"]</td>
+                                <td>$record["EventName"] </td>
+                                <td>$record["NextDate"] </td>
+                            </tr>
+                        $for record in data["PendingReminderList"]:
+                            <tr>
+                                <td>$record["ReminderId"]</td>
+                                <td>$record["EventName"] </td>
+                                <td class="text-danger">$record["NextDate"] </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <br>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="text-primary"> <small> <a href="#">Health</a> </small></h2>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                $if data["ExerciseGraph"] == "success":
+                    <img src="static/temp/exercise.png">
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-lg-12">
+                <h2 class="text-primary"> <small> <a href="/learnings">Learnings for the year</a> </small></h2>
+            </div>
+        </div>
+        <div class = "row">
+            <div class="col-lg-12">
+                $if data["LearningList"] ==[]:
+                    <h4 class="text-danger"><small>You didn't learned anything so far.</small></h4>
+                $else:
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>Subject</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        $for record in data["LearningList"]:
+                            <tr>
+                                <td>$record["month"]</td>
+                                <td>
+                                    <ol>
+                                    $for item in record["subject"]:
+                                        <li>$item</li>
+                                    </ol>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+        <hr>
+        <div class="row">
+            <div class="col-lg-12 bgcolor_light_color1">
+                <h2 class="text-primary"> <small> <a href="/books">Books</a> </small></h2>
+                $if data["ReadInProgressBooks"] == None:
+                    <h4 class="text-danger"><small> Looks like you are not reading any book now !!</small></h4>
+                $else:
+                    <h4><small> You are yet to complete following book(s): </small></h4>
+                    <ol>
+                        $for book in data["ReadInProgressBooks"]:
+                            <li>$book["Name"] </li>
+                    </ol>
+                    <br>
+            </div>
+        </div>
+        <div class="row">
+            $if data["CompletedBooksCount"] > 0:
+                <div class="col-lg-2 bgcolor_light_color1">
+                    <img src="/static/Common/clap.png" class="img-fluid">
+                </div>
+                <div class="col-lg-10 bgcolor_light_color1">
+                    <p class="display-4 text-center text-warning">You completed reading $data["CompletedBooksCount"] books so far. Keep going..</p>
+                </div>
+        </div>
+        <hr>
+         <div class ="row">
+            <div class="col-lg-12 bgcolor_light_color1">
+                <h2 class="text-primary"> <small> <a href="/journal">Journal</a> </small></h2>
+            </div>
+
+         </div>
+         <hr>
+</div>

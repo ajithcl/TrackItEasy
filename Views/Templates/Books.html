@@ -1,0 +1,123 @@
+$def with (booklist)
+
+<div class="container">
+    $if session["user"] == None:
+        <img src="/static/Common/bookshelf.JPG" class="img-fluid">
+        <br> <br>
+        <p class="text-dark lead text-center">
+            When was the last time you read a book, or a substantial magazine article? Do your daily reading habits center
+            around tweets, Facebook updates, or the directions on your instant oatmeal packet?
+            If you’re one of countless people who don’t make a habit of reading regularly, you might be missing out.
+            Reading has a significant number of benefits such as Mental stimulation, stress reduction, knowledge, vocabulary
+            expansion, memory improvement etc.
+            <br>
+        </p>
+        <p class="text-dark lead text-center"> So.. How many books have you read so far?</p>
+        <p class="text-center"><a href="/login">Login </a> to see your details.. </p>
+    $else:
+        <div class="row">
+            <h1 class="display-4">Add a new book which you started reading..</h1>
+            <br><br> <br><br>
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8" style="background-color:#EBF5FB">
+                <br>
+                <div class="newbook">
+                    <form id="bookentryform">
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon1">Book name</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Enter name of the Book" id="BookName"
+                                name="BookName" aria-describedby="basic-addon1">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon2">Start date</span>
+                            </div>
+                            <input type="date" class="form-control" placeholder="Enter start date" id="StartDate" name="StartDate"
+                                aria-describedby="basic-addon2">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon3">End date</span>
+                            </div>
+                            <input type="date" class="form-control" placeholder="Enter end date" id="EndDate" name="EndDate"
+                                aria-describedby="basic-addon3">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon4">Related to</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="This book related to .." id="RelatedTo"
+                                name="RelatedTo" aria-describedby="basic-addon4">
+                        </div>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text" id="basic-addon5">Author</span>
+                            </div>
+                            <input type="text" class="form-control" placeholder="Author of this book" id="Author" name="Author"
+                                aria-describedby="basic-addon5">
+                        </div>
+                        <div class="input-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Comments</span>
+                            </div>
+                            <textarea class="form-control" aria-label="Comments" id="Comments" name="Comments"></textarea>
+                        </div>
+                        <br>
+                        <div class="form-check">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" value="True" id="PrivateInfo"
+                                    name="PrivateInfo">Private Information?
+                            </label>
+                        </div>
+                        <input type="hidden" id="hiddenbookid" name="hiddenbookid" value="">
+                        <div class="float-center text-center">
+                            <button type="submit" class="btn btn-outline-primary" id="btnAddUpdate">Add Book</button>
+                            <button type="button" class="btn btn-outline-danger" id="btnCancel" onclick="window.location.reload()">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="border-top my-3"></div>
+            </div>
+        </div>
+        <br>
+        <div class="viewbooks">
+            <h1 class="display-4">View Books which you completed so far..</h1>
+            <br><br>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Name</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Related To</th>
+                        <th>Author</th>
+                        <th>Comments</th>
+                        <th>Edit</th>
+                    </tr>
+                </thead>
+                <tbody id="booktable">
+                    $ Count = 0
+                    $for book in booklist:
+                        $ Count+=1
+                        <tr data-rowid=$book["_id"] class="cursor-to-pointer">
+                            <td >$Count</td>
+                            <td>$book["BookName"]</td>
+                            <td>$book["StartDate"]</td>
+                            <td>$book["EndDate"]</td>
+                            <td>$book["RelatedTo"]</td>
+                            <td>$book["Author"]</td>
+                            <td>$book["Comments"]</td>
+                            <td><button type="button" class="btn btn-light" onclick='bookRowBtnClicked("$book["_id"]")'>Edit</button></td>
+                        </tr>
+                </tbody>
+            </table>
+        </div>
+</div>

@@ -1,0 +1,20 @@
+<div class="container">
+    $if session["user"] == None:
+        <img src="/static/Common/Place.jpg" class="img-fluid">
+        <br><br>
+        <p class="text-dark lead text-center">
+            There are plenty of things one can gain from exploring different places. The list includes gaining new friends, new experiences, and new stories.
+
+            When you start exploring new places, you get a better understanding of the people living there, including their culture, history and background.
+
+            Studies show that travelling can improve your overall health and enhance your creativity. Therefore, you need to take time out from your daily tasks, office responsibilities, hectic schedule, and everyday pressures at least once in a year. Plan a tour to a new city with an open schedule and let life present you with the numerous opportunities.
+        </p>
+        <p class="text-dark lead text-center">
+        So what are the places you travelled so far??
+        </p>
+        <p class="text-center">
+            <a href="/login">Login</a> to see the details.
+        </p>
+    $else:
+        $pass
+</div>

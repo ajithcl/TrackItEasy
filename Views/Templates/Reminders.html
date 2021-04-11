@@ -1,0 +1,74 @@
+<div class="container">
+    $if session["user"] == None:
+        <div class="jumbotron">
+            <p class="display-4"> Never miss anything going forward..</p>
+            <br> <br>
+            <p class ="lead text-center">
+                Here is the simple page for setting reminders for you, so that you will never miss a thing again.
+            </p>
+            <p class="text-center lead">
+                So do you want see the forthcoming events in your life !!
+            </p>
+            <p class="text-center">
+            Please <a href="/login">login</a> to see or set your reminders.
+            </p>
+        </div>
+    $else:
+        <div class="row">
+            <div class="col-lg-12" style="background-color:#FFFFFF">
+                <p></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8 bgcolor_milk">
+                <u>
+                    <p class="text-dark text-center lead">New event entry</p>
+                </u>
+                <form id="form_reminder_input">
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1">Event name</span>
+                        </div>
+                        <input type="text" class="form-control" placeholder="Enter name of the Event" id="EventName"
+                            name="EventName" aria-describedby="basic-addon1">
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon1.1">Start Date</span>
+                        </div>
+                        <input type="date" class="form-control" placeholder="Enter start date" id="StartDate"
+                            name="StartDate" aria-describedby="basic-addon1.1">
+                    </div>
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="basic-addon2">Interval</span>
+                        </div>
+                        <input type="number" class="form-control w-25" placeholder="Interval period" id="interval"
+                            name="Interval" aria-describedby="basic-addon2" style="width : 50px;">
+                        <select name="IntervalType" class="input-group mb-2 w-25">
+                            <option value="Days">Days</option>
+                            <option value="Months">Months</option>
+                            <option value="Year">Year</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">Comments</span>
+                        </div>
+                        <textarea class="form-control" aria-label="Comments" id="Comments" name="Comments"></textarea>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-outline-primary" id="btn_reminders_save">Save</button>
+                </form>
+            </div>
+            <div class="col-lg-2"></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <button type="button" class="btn btn-outline-info btn-block" onclick="getAllReminders()">View All</button>
+                <span id="reminder_all"></span>
+            </div>
+        </div>
+</div>

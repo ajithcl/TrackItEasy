@@ -1,0 +1,8 @@
+
+*.iml
+.idea/inspectionProfiles/profiles_settings.xml
+.idea/modules.xml
+Models/__pycache__/BookModel.cpython-37.pyc
+*.pyc
+sessions/e0e5014c1dbfb9162ea9e55f5d58e3d47b376d43
+sessions/3e24a849a64e5e8e80f226a991245fbe01155c23

@@ -1,0 +1,68 @@
+$def with (pagedata)
+$ count = 0
+<div class="container">
+    $if session["user"] == None:
+        <img src="/static/Common/learning.jpg" class="img-fluid">
+        <br><br>
+        <p class="text-dark lead text-center">
+            Learning is essential to our existence. Just like food nourishes our bodies, information and continued learning
+            nourishes our minds. Lifelong learning is an indispensable tool for every career and organisation.
+            Knowledge is now at everyone’s fingertips. Those not making use of this opportunity will remain where they are,
+            their
+            capabilities diminishing in its importance.
+        </p>
+        <Br>
+        <div class="text-dark lead text-center">
+            So how much you learned so far..?
+        </div>
+        <br><br>
+        <p class="text-center">
+            <a href="/login">Login </a> to see your progress..
+        </p>
+        <br>
+    $else:
+        <div class="learningdata">
+            <div class="row">
+                <p class="text-dark lead text-center display-4">
+                    What are you learning in this $pagedata["CurrentMonth"]?
+                </p>
+                <br><br>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <br><br>
+                    <form id="learningentry" class="form-inline">
+                        <div class="input-group-lg" id="learningentrydiv">
+                            <input type="text" class="form-control" placeholder="Enter the subject name" id="subject"
+                                name="subject1">
+                            <button type="submit" class="btn btn-primary" id="btnsavelearning">Save</button>
+                            <div id="AfterSaveplaceholder"></div>
+                        </div>
+                    </form>
+                </div>
+                <br><br><br><br>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="subjectlist">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Subjects</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                $for data in pagedata["CurrentMonthDetails"]:
+                                $ count += 1
+                                <tr>
+                                    <td>$count</td>
+                                    <td>$data </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>

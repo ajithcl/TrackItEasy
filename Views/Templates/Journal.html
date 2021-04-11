@@ -1,0 +1,81 @@
+$def with (pagedata)
+<div class="container">
+    $if session["user"] == None:
+        <img src="/static/Common/journal.jpg" class="img-fluid">
+        <br><br>
+        <p class="lead text-center">
+            Feels like writing something personal...?
+        </p>
+        <p class="text-center"><a href="/login">Login</a> and go ahead.</p>
+    $else:
+        <div class="newjournal">
+            <div class = "row">
+                <p class="text-dark lead text-center display-4">
+                    Create new journal
+                </p>
+            </div>
+            <div class="row">
+                <div class="col-lg-1"> </div>
+                <div class="col-lg-10" style="background-color:#EBF5FB">
+                    <br>
+                    <form id="journal-entry-form">
+                        <input type="hidden" id="objectid_input"  name="objectid_input" value="">
+                        <div class="md-form input-group mb-3">
+                          <div class="input-group-prepend">
+                            <span class="input-group-text md-addon" id="inputGroupMaterial-sizing-default">Subject</span>
+                          </div>
+                          <input type="text" id="subject_input" class="form-control" name="subject" aria-label="Sizing example input" aria-describedby="inputGroupMaterial-sizing-default">
+                        </div>
+
+                        <div class="form-group shadow-textarea">
+                            <textarea id="subject-text" class="form-control z-depth-1" name="notes" rows="5" placeholder="Enter your notes.."></textarea>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label text-secondary">Priority:</label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" id="radio_priority_normal" class="form-check-input" name="radio_priority" value="Normal" checked>Normal
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="radio" class="form-check-input" name="radio_priority" value="Important">Important
+                            </label>
+                        </div>
+                        <div class="form-check-inline">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" value="True" id="encode_notes" name="encode_data">
+                                Encode while saving?
+                            </label>
+                        </div>
+                        <br><br>
+                        <div class="float-center text-center">
+                          <button type="submit" id="btn_journal_Save" class="btn btn-outline-primary">Save</button>
+                          <button type="button" id="btn_journal_cancel" class="btn btn-outline-danger" onclick="journal_cancel_clicked()">Cancel</button>
+                        </div>
+                        <div id="journal_msg_space"></div>
+                    </form>
+                    <br>
+                </div>
+                <div class="col-lg-1"></div>
+            </div>
+        </div>
+        <div class="viewjournals">
+            <div class = "row">
+                <p class="text-dark lead text-center display-4"> View journals </p>
+            </div>
+            <div class = "row" id="journal_cards">
+                <div class="card-columns">
+                    $for data in pagedata["journal_records"]:
+                        <div class="card bg-warning cursor-to-pointer journal_card journal_common_card">
+                            <div class="card-header" id="journal_card_header"><b>$data["subject"]</b></div>
+                            <div class="card-body" data-objectid=$data["ObjectId"]>
+                                <p class="card-text">  $data["notes"]</p>
+                            </div>
+                        </div>
+
+                </div>
+            </div>
+        </div>
+</div>
