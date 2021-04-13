@@ -15,7 +15,7 @@ from matplotlib import style
 # Visualization settings
 sns.set_style(style='white')
 sns.set(rc={
-    'figure.figsize': (9, 5),
+    'figure.figsize': (10, 6),
     'axes.facecolor': 'white',
     'axes.grid': True,
     'grid.color': '.9',
