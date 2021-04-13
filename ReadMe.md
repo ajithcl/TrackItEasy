@@ -1,4 +1,7 @@
 # LookAtYou - Personal management webpage
+
+## Who can use this?
+Everyone who want's to track their daily stuffs, expenses, learnings, books read etc.
 ## What's the use?
 Through this webpage we can track our Expenses, Learnings, Reminders etc,
 Started this project as a learning project, continuing to add new stufs based on the needs.
