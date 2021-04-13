@@ -1,1 +1,0 @@
-1. Using the task scheduler, 'LookAtYou-Start' has been created to start the batch script while logging on the system. 

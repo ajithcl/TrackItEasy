@@ -1,0 +1,1 @@
+1. Using the task scheduler, 'LookAtYou-Start' has been created to start the batch script while logging on the system. Through this webservice will be running in the background whiile logging on the system.
