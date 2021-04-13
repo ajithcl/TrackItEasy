@@ -31,3 +31,5 @@ Expense page - Expense entry. Helps to view over all expenses monthly wise for a
 Feelings - Track overall mmodes for the day. Can see over all the year how we felt.
 ![Feelings](https://user-images.githubusercontent.com/44773122/114530860-f7089a00-9c68-11eb-9722-4b545552b95b.png)
 
+This project is still in progress..I'm still thinking about it :)
+
