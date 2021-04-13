@@ -45,7 +45,8 @@ urls = (
     '/savefeeling', 'SaveFeeling',
     '/expenses', 'Expenses',
     '/save_expense', 'Save_Expense',
-    '/getcurrentmonthexpensedetails', 'GetCurrentMonthExpenseDetails'
+    '/getcurrentmonthexpensedetails', 'GetCurrentMonthExpenseDetails',
+    '/getAllExpenseTrend', 'AllExpenseTrend'
 )
 
 app = web.application(urls, globals())
@@ -553,6 +554,17 @@ class GetCurrentMonthExpenseDetails:
                 jsonString = jsonString + json.dumps(obj) + "`^`"
 
             return jsonString
+
+
+class AllExpenseTrend:
+    def GET(self):
+        expense = ExpenseModel.Expense()
+        if session_data["user"] is None:
+            userid = None
+        else:
+            userid = session_data["user"]["UserId"]
+        result = expense.get_all_expense_trend(userid)
+        return result
 
 
 if __name__ == "__main__":

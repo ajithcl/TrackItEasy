@@ -417,6 +417,27 @@ function showMonthlyExpenseDetails(){
     })
 }
 
+//Function for showing the graphical representation for all expenses year wise.
+//For the successful execution, return value will be the image file name.
+//In case of error, return value will be 'error' string.
+
+function showAllExpenseTrend(){
+    document.getElementById('AllExpenseTrendTitle').hidden=true;
+    $.ajax({
+    url: '/getAllExpenseTrend',
+    type:'GET',
+    success: function(result){
+        if (result != "error"){
+            console.log(result);
+            img_src=document.getElementById('AllExpenseTrend_img');
+            img_src.src=result;
+        }
+        else{
+            alert("Unable to access expense trend");
+        }
+    }})
+}
+
 // function for removing messages from the Journal form
 function clearJournalMessage(){
     document.querySelector(".alert-success").remove();

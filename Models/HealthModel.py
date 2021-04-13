@@ -4,6 +4,7 @@ import pymongo
 from pymongo import MongoClient
 import datetime
 import matplotlib
+
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 
@@ -69,7 +70,7 @@ class Health:
                 y_cnt.append(item[1])
 
             plt.bar(x_mon, y_cnt)
-            plt.xlabel('Months')
+            # plt.xlabel('Months')
             plt.ylabel('Days count')
             plt.title('Monthly Exercise Days count')
             plt.savefig('static/temp/exercise.png')

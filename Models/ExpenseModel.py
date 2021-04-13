@@ -4,10 +4,26 @@ from pymongo import MongoClient
 from Models import Common
 from datetime import date
 import matplotlib
+import seaborn as sns
+import pandas as pd
+import numpy as np
 
 matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 from matplotlib import style
+
+# Visualization settings
+sns.set_style(style='white')
+sns.set(rc={
+    'figure.figsize': (9, 5),
+    'axes.facecolor': 'white',
+    'axes.grid': True,
+    'grid.color': '.9',
+    'axes.linewidth': 1.0,
+    'grid.linestyle': u'-'},
+    font_scale=1.5)
+custom_colors = ["#3498db", "#95a5a6", "#34495e", "#2ecc71", "#e74c3c"]
+sns.set_palette(custom_colors)
 
 
 class Expense:
@@ -167,4 +183,34 @@ class Expense:
             plt.close()
             return "success"
         except:
+            return "error"
+
+    def get_all_expense_trend(self, userid):
+        # Group the records based on year and then month
+        # Calculate monthly sum.
+        results = self.expensedata.aggregate([{"$match": {"UserId": userid}},
+                                              {"$group": {
+                                                  "_id": {"year": {"$year": "$ExpenseDate"},
+                                                          "month": {"$month": "$ExpenseDate"}},
+                                                  "MonthlyTotal": {"$sum": "$Amount"}}}
+                                              ])
+        df = pd.DataFrame(columns=['year', 'month', 'MonthlyTotal'], dtype=int)
+        if results:
+            for row in results:
+                df = pd.concat([df,
+                                pd.DataFrame(data={'year': row['_id']['year'],
+                                                   'month': row['_id']['month'],
+                                                   'MonthlyTotal': row['MonthlyTotal']},
+                                             index=[0])])
+            sns.lineplot(data=df, x='month', y='MonthlyTotal', hue='year', palette='tab10');
+            plt.title("Expense trends - Monthwise");
+            plt.legend(loc='center', bbox_to_anchor=(1.05, 0.5), title='Year');
+            plt.xticks(np.arange(1, 13),
+                       labels=['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']);
+            plt.xticks(rotation=90);
+            img_file="static/temp/expense_trend.png"
+            plt.savefig(img_file)
+            plt.close()
+            return img_file
+        else:
             return "error"
