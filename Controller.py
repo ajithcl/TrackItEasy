@@ -46,7 +46,8 @@ urls = (
     '/expenses', 'Expenses',
     '/save_expense', 'Save_Expense',
     '/getcurrentmonthexpensedetails', 'GetCurrentMonthExpenseDetails',
-    '/getAllExpenseTrend', 'AllExpenseTrend'
+    '/getAllExpenseTrend', 'AllExpenseTrend',
+    '/movies', 'Movies'
 )
 
 app = web.application(urls, globals())
@@ -267,6 +268,10 @@ class SaveLearning:
 class Places:
     def GET(self):
         return render.Places()
+
+class Movies:
+    def GET(self):
+        return render.Movies()
 
 
 class Reminders:
