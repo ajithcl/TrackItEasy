@@ -293,8 +293,9 @@ $(document).ready(function () {
         e.preventDefault();
         language = document.getElementById('inputGroupSelectMovieLanguage');
         movie_type = document.getElementById('inputGroupSelectMovieType');
-        if (language.selectedIndex == 0 || movie_type.selectedIndex == 0){
-            showMoviesMessage("Invalid entry for Type/Language");
+        movie_name = document.getElementById('MovieNameId').value;
+        if (language.selectedIndex == 0 || movie_type.selectedIndex == 0 ||movie_name.length == 0){
+            showMoviesMessage("Invalid entry","error");
             setTimeout(clearMovieMessage,3000);
             return;
         }
@@ -305,10 +306,11 @@ $(document).ready(function () {
             data : formData,
             success : function (result){
                 if (result == "success"){
-                    window.location.reload();
+                                showMoviesMessage("Record created","success");
+                                setTimeout(clearMovieMessage,3000);
                 }
                 else{
-                    showMoviesMessage("Unable to save movie record.");
+                    showMoviesMessage("Unable to save movie record.","error");
                     setTimeout(clearMovieMessage,3000);
                 }
             }
@@ -317,9 +319,16 @@ $(document).ready(function () {
 })
 
 // Show Movies message
-function showMoviesMessage(ipMessage){
+function showMoviesMessage(ipMessage,message_type){
     const msgDiv = document.createElement('div');
-    msgDiv.className = 'message text-danger';
+
+    if (message_type == "success"){
+        msgDiv.className = 'message text-success';
+        }
+    else{
+        msgDiv.className = 'message text-danger';
+    }
+
     msgDiv.appendChild(document.createTextNode(ipMessage));
     const formElement = document.getElementById('form_movie_input');
     const btn_save = document.getElementById('btn_Movies_save');

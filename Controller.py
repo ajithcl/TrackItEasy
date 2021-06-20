@@ -576,15 +576,25 @@ class SaveMovie:
     def POST(self):
         movie = MoviesModel.Movies()
         data = web.input()
+
         watch_date = str(data["WatchDate"])
         if watch_date == "" or watch_date is None:
             watch_date = str(datetime.date.today())
+
+        already_watched = True
+        try:
+            data['watched']
+            already_watched = True
+        except KeyError:
+            already_watched = False
+
         insert_data = {"UserId": session_data["user"]["UserId"],
                        "MovieName" : data["MovieName"],
                        "MovieType" : data["Type"],
                        "Lanuage"   : data["Language"],
                        "WatchDate" : datetime.datetime.strptime(watch_date, "%Y-%m-%d"),
-                       "Comments"  : data["Comments"]
+                       "Comments"  : data["Comments"],
+                       "Watched"   : already_watched
                        }
         print (insert_data)
         result = movie.insert_one_movie(insert_data)

@@ -14,15 +14,21 @@
                     <p class="text-dark text-center lead">New movie entry</p>
                 </u>
                 <form id="form_movie_input">
-                    <div class="input-group ">
+                    <div class="input-group mb-1">
                         <div class="input-group-prepend">
                             <span class="input-group-text" id="basic-addon1">Movie name</span>
                         </div>
-                        <input type="text" class="form-control" placeholder="Enter name of the movie" id="MovieName"
+                        <input type="text" class="form-control" placeholder="Enter name of the movie" id="MovieNameId"
                             name="MovieName" aria-describedby="basic-addon1">
                     </div>
+                    <div class="form-check-inline mb-1">
+                            <label class="form-check-label">
+                                <input type="checkbox" class="form-check-input" value="True" id="watched_check_id" name="watched" checked>
+                                Already watched.
+                            </label>
+                        </div>
 
-                    <div class="input-group ">
+                    <div class="input-group mb-1">
                       <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelectMovieType">Type</label>
                       </div>
@@ -35,7 +41,7 @@
                       </select>
                     </div>
 
-                    <div class="input-group ">
+                    <div class="input-group mb-1">
                       <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelectMovieLanguage">Language</label>
                       </div>
@@ -50,14 +56,14 @@
                       </select>
                     </div>
 
-                    <div class="input-group ">
+                    <div class="input-group mb-1">
                         <div class="input-group-prepend">
                             <label class="input-group-text" for="WatchDate">Date</label>
                         </div>
                         <input type="date" class="form-control" placeholder="Enter the date" id="WatchDate"
                             name="WatchDate">
                     </div>
-                    <div class="input-group ">
+                    <div class="input-group mb-1">
                         <div class="input-group-prepend">
                             <span class="input-group-text">Comments</span>
                         </div>
