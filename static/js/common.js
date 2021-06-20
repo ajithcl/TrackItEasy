@@ -287,7 +287,48 @@ $(document).ready(function () {
             }
         })
     }
+
+    // Save button from Movies page
+    $(document).on("submit", "#form_movie_input", function(e){
+        e.preventDefault();
+        language = document.getElementById('inputGroupSelectMovieLanguage');
+        movie_type = document.getElementById('inputGroupSelectMovieType');
+        if (language.selectedIndex == 0 || movie_type.selectedIndex == 0){
+            showMoviesMessage("Invalid entry for Type/Language");
+            setTimeout(clearMovieMessage,3000);
+            return;
+        }
+        var formData = $(this).serialize();
+        $.ajax({
+            url: "/save_movie",
+            type : 'POST',
+            data : formData,
+            success : function (result){
+                if (result == "success"){
+                    window.location.reload();
+                }
+                else{
+                    showMoviesMessage("Unable to save movie record.");
+                    setTimeout(clearMovieMessage,3000);
+                }
+            }
+        })
+    })
 })
+
+// Show Movies message
+function showMoviesMessage(ipMessage){
+    const msgDiv = document.createElement('div');
+    msgDiv.className = 'message text-danger';
+    msgDiv.appendChild(document.createTextNode(ipMessage));
+    const formElement = document.getElementById('form_movie_input');
+    const btn_save = document.getElementById('btn_Movies_save');
+    formElement.insertBefore(msgDiv, btn_save);
+}
+
+function clearMovieMessage(){
+    document.querySelector('.message').remove();
+}
 
 // delete journal notes
 function delete_jounal(object_id, card_header){

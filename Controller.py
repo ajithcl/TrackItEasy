@@ -10,7 +10,7 @@ import web
 from bson import ObjectId
 
 from Models import UserAccountModel, BookModel, FeelingsModel, LearningsModel, ExpenseModel, ReminderModel, JournalModel
-from Models import HealthModel, Common
+from Models import HealthModel, Common, MoviesModel
 from datetime import date
 
 web.config.debug = False
@@ -47,7 +47,8 @@ urls = (
     '/save_expense', 'Save_Expense',
     '/getcurrentmonthexpensedetails', 'GetCurrentMonthExpenseDetails',
     '/getAllExpenseTrend', 'AllExpenseTrend',
-    '/movies', 'Movies'
+    '/movies', 'Movies',
+    '/save_movie','SaveMovie'
 )
 
 app = web.application(urls, globals())
@@ -570,6 +571,26 @@ class AllExpenseTrend:
             userid = session_data["user"]["UserId"]
         result = expense.get_all_expense_trend(userid)
         return result
+
+class SaveMovie:
+    def POST(self):
+        movie = MoviesModel.Movies()
+        data = web.input()
+        watch_date = str(data["WatchDate"])
+        if watch_date == "" or watch_date is None:
+            watch_date = str(datetime.date.today())
+        insert_data = {"UserId": session_data["user"]["UserId"],
+                       "MovieName" : data["MovieName"],
+                       "MovieType" : data["Type"],
+                       "Lanuage"   : data["Language"],
+                       "WatchDate" : datetime.datetime.strptime(watch_date, "%Y-%m-%d"),
+                       "Comments"  : data["Comments"]
+                       }
+        print (insert_data)
+        result = movie.insert_one_movie(insert_data)
+        return result
+
+
 
 
 if __name__ == "__main__":

@@ -9,7 +9,7 @@
     $else:
         <div class="row">
             <div class="col-lg-2"></div>
-            <div class="col-lg-8 bgcolor_milk">
+            <div class="col-lg-8 bgcolor_milk" id="movies_div">
                 <u>
                     <p class="text-dark text-center lead">New movie entry</p>
                 </u>
@@ -26,7 +26,7 @@
                       <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelectMovieType">Type</label>
                       </div>
-                      <select class="custom-select" id="inputGroupSelectMovieType">
+                      <select class="custom-select" id="inputGroupSelectMovieType" name="Type">
                         <option selected>Choose...</option>
                             <option value="Horror">Horror</option>
                             <option value="Action">Action</option>
@@ -39,7 +39,7 @@
                       <div class="input-group-prepend">
                         <label class="input-group-text" for="inputGroupSelectMovieLanguage">Language</label>
                       </div>
-                      <select class="custom-select" id="inputGroupSelectMovieLanguage">
+                      <select class="custom-select" id="inputGroupSelectMovieLanguage" name="Language">
                         <option selected>Choose...</option>
                             <option value="Malayalam">Malayalam</option>
                             <option value="English">English</option>
@@ -64,7 +64,7 @@
                         <textarea class="form-control" aria-label="Comments" id="Comments" name="Comments"></textarea>
                     </div>
                     <br>
-                    <button type="submit" class="btn btn-outline-primary" id="btn_reminders_save">Save</button>
+                    <button type="submit" class="btn btn-outline-primary" id="btn_Movies_save">Save</button>
 
                 </form>
             </div>
