@@ -1,4 +1,6 @@
+import pymongo
 from pymongo import MongoClient
+
 
 class Movies:
     def __init__(self):
@@ -14,4 +16,7 @@ class Movies:
             return "error"
 
     def get_movies(self, userid):
-        return self.movies.find({'UserId':userid})
+        return self.movies.find({'UserId': userid}).sort("WatchDate", pymongo.DESCENDING)
+
+    def get_movies_to_watch(self, userid):
+        return self.movies.find({'UserId': userid, 'Watched': False}).sort("WatchDate", pymongo.DESCENDING)

@@ -48,7 +48,9 @@ urls = (
     '/getcurrentmonthexpensedetails', 'GetCurrentMonthExpenseDetails',
     '/getAllExpenseTrend', 'AllExpenseTrend',
     '/movies', 'Movies',
-    '/save_movie','SaveMovie'
+    '/save_movie', 'SaveMovie',
+    '/viewallmovies', 'ViewAllMovies',
+    '/viewmoviestowatch', 'ViewMoviesToWatch'
 )
 
 app = web.application(urls, globals())
@@ -269,6 +271,7 @@ class SaveLearning:
 class Places:
     def GET(self):
         return render.Places()
+
 
 class Movies:
     def GET(self):
@@ -572,6 +575,7 @@ class AllExpenseTrend:
         result = expense.get_all_expense_trend(userid)
         return result
 
+
 class SaveMovie:
     def POST(self):
         movie = MoviesModel.Movies()
@@ -589,18 +593,60 @@ class SaveMovie:
             already_watched = False
 
         insert_data = {"UserId": session_data["user"]["UserId"],
-                       "MovieName" : data["MovieName"],
-                       "MovieType" : data["Type"],
-                       "Lanuage"   : data["Language"],
-                       "WatchDate" : datetime.datetime.strptime(watch_date, "%Y-%m-%d"),
-                       "Comments"  : data["Comments"],
-                       "Watched"   : already_watched
+                       "MovieName": data["MovieName"],
+                       "MovieType": data["Type"],
+                       "Language": data["Language"],
+                       "WatchDate": datetime.datetime.strptime(watch_date, "%Y-%m-%d"),
+                       "Comments": data["Comments"],
+                       "Watched": already_watched
                        }
-        print (insert_data)
+        print(insert_data)
         result = movie.insert_one_movie(insert_data)
         return result
 
 
+class ViewAllMovies:
+    def GET(self):
+        movie = MoviesModel.Movies()
+        if session_data["user"] is None:
+            return
+        movies_data = movie.get_movies(userid=session_data["user"]["UserId"])
+
+        movie_record_list = []
+
+        if movies_data:
+            for item in movies_data:
+                movie_dict = item
+                movie_dict.pop('_id')  # TODO - Removing the record object id
+                movie_dict['WatchDate'] = movie_dict['WatchDate'].strftime("%Y-%m-%d")
+                movie_dict.pop('UserId')
+                movie_record_list.append(movie_dict)
+            json_string = json.dumps(movie_record_list)
+            return json_string
+        else:
+            return "error"
+
+
+class ViewMoviesToWatch:
+    def GET(self):
+        movie = MoviesModel.Movies()
+        if session_data["user"] is None:
+            return
+        movies_data = movie.get_movies_to_watch(userid=session_data["user"]["UserId"])
+
+        movie_record_list = []
+
+        if movies_data:
+            for item in movies_data:
+                movie_dict = item
+                movie_dict.pop('_id')  # TODO - Removing the record object id
+                movie_dict['WatchDate'] = movie_dict['WatchDate'].strftime("%Y-%m-%d")
+                movie_dict.pop('UserId')
+                movie_record_list.append(movie_dict)
+            json_string = json.dumps(movie_record_list)
+            return json_string
+        else:
+            return "error"
 
 
 if __name__ == "__main__":

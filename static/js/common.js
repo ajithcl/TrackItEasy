@@ -316,6 +316,84 @@ $(document).ready(function () {
             }
         })
     })
+
+    // Movies View all button
+    $(document).on("click", "#BtnViewAllMovies", function(e){
+        e.preventDefault();
+        movie_list_span_id = document.getElementById('ViewMovieContentId');
+        $.ajax({
+            url : '/viewallmovies',
+            type : 'GET',
+            success : function (result){
+                table_body_html= "<table class='table table-striped'><tbody><thead>" +
+                    "<tr><th>Date</th>" +
+                    "<th>Name</th>" +
+                    "<th>Type</th>" +
+                    "<th>Language</th>" +
+                    "<th>Watched</th>" +
+                    "</tr></thead></tbody>";
+                try{
+                    const movie_data =JSON.parse(result);
+                    movie_data.forEach(function(item){
+                        table_body_html+=`
+                            <tr>
+                            <td>${item.WatchDate}</td>
+                            <td>${item.MovieName}</td>
+                            <td>${item.MovieType}</td>
+                            <td>${item.Language}</td>
+                            <td>${item.Watched}</td>
+                            </tr>`
+                    });
+                    table_body_html = table_body_html + '</tbody></table>';
+                    movie_list_span_id.innerHTML = table_body_html;
+                    movie_list_span_id.removeAttribute("hidden");
+                }
+                catch (err){
+                    alert("Error while accessing movie list");
+                }
+            }
+        })
+    })
+
+    // Movies to watch button click event
+    $(document).on("click", "#BtnToWatchMovies", function(e){
+        e.preventDefault();
+        movie_list_span_id = document.getElementById('ViewMovieContentId');
+        $.ajax({
+            url : '/viewmoviestowatch',
+            type : 'GET',
+            success : function (result){
+                table_body_html= "<table class='table table-striped'><tbody><thead>" +
+                    "<tr><th>Date</th>" +
+                    "<th>Name</th>" +
+                    "<th>Type</th>" +
+                    "<th>Language</th>" +
+                    "<th>Watched</th>" +
+                    "</tr></thead></tbody>";
+                try{
+                    const movie_data =JSON.parse(result);
+                    movie_data.forEach(function(item){
+                        table_body_html+=`
+                            <tr>
+                            <td>${item.WatchDate}</td>
+                            <td>${item.MovieName}</td>
+                            <td>${item.MovieType}</td>
+                            <td>${item.Language}</td>
+                            <td>${item.Watched}</td>
+                            </tr>`
+                    });
+                    table_body_html = table_body_html + '</tbody></table>';
+                    movie_list_span_id.innerHTML = table_body_html;
+                    movie_list_span_id.removeAttribute("hidden");
+                }
+                catch (err){
+                    alert("Error while accessing movie list");
+                }
+            }
+        })
+    })
+
+
 })
 
 // Show Movies message
