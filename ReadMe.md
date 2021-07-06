@@ -1,5 +1,19 @@
 # LookAtYou - Personal management webpage
 
+### Update history
+
+<table>
+<thead>
+<th>Date</th>
+<th>Changes</th>
+<th>Comments</th>
+</thead>
+<tbody>
+<tr><td>06 Jul 2021</td><td>Movies page added</td>
+  <td>User can keep track of watched movies and movies planned to watch.</td></tr>
+</tbody>
+</table>
+
 ## Who can use this?
 Everyone who want's to track their daily stuffs, expenses, learnings, books read etc.
 ## What's the use?
@@ -31,5 +45,10 @@ Expense page - Expense entry. Helps to view over all expenses monthly wise for a
 Feelings - Track overall mmodes for the day. Can see over all the year how we felt.
 ![Feelings](https://user-images.githubusercontent.com/44773122/114530860-f7089a00-9c68-11eb-9722-4b545552b95b.png)
 
+Movies - Track all the watched movies and the ones planned to watch.
+![Movies](https://user-images.githubusercontent.com/44773122/124577039-88536b00-de6a-11eb-90fd-25a8eb2673c5.png)
+
+
+<hr>
 This project is still in progress..I'm still thinking about it :)
 
