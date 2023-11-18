@@ -51,6 +51,7 @@ class Book:
             return book_list
 
     def getCompletedBooksCount(self, userid):
-        result = self.books.find({"UserId": userid,
+        result = self.books.count_documents({"UserId": userid,
                                   "EndDate": {"$lt": datetime.datetime.strptime("9999-12-31", "%Y-%m-%d")}})
-        return result.count()
+        # return result.count_documents()
+        return  result
