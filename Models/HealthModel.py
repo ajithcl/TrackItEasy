@@ -34,10 +34,10 @@ class Health:
         return output
 
     def update_exercise_status(self, userid, exercise_status, record_date=current_date):
-        result = self.HealthCollection.update({"UserId": userid,
-                                               "RecordDate": record_date},
-                                              {"$set": {"ExerciseStatus": exercise_status}},
-                                              upsert=True)
+        result = self.HealthCollection.update_one({"UserId": userid,
+                                                   "RecordDate": record_date},
+                                                  {'$set': {'ExerciseStatus': exercise_status}},
+                                                  upsert=True)
         return result
 
     def get_current_year_graphics(self, userid):
