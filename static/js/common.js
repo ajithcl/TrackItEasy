@@ -176,6 +176,44 @@ $(document).ready(function () {
         })
     })
 
+    // Exercise single date entry save
+    $(document).on("submit", "#exercise_single_entry_form", function(e){
+        e.preventDefault();
+        const form_element = document.getElementById('exercise_single_entry_form');
+        const msg_space = document.getElementById('exercise_entry_msg_space');
+        const div_element = document.createElement('div');
+        var exercise_date = form_element.elements['ExerciseDate'].value;
+
+        if (exercise_date == ""){
+            div_element.className = "alert alert-warning text-center exercise-message";
+            div_element.appendChild(document.createTextNode("Invalid exercise date!"));
+            form_element.insertBefore(div_element, msg_space);
+            setTimeout(clearExerciseEntryMessage, 2000);
+            return;
+        }
+        var formData = $(this).serialize();
+
+        $.ajax({
+            url: '/updateExerciseStatus',
+            type: 'POST',
+            data: formData,
+            success: function(result){
+                if (result=="success"){
+                    div_element.className = "alert alert-success text-center exercise-message";
+                    div_element.appendChild(document.createTextNode("Exercise saved."));
+                    form_element.insertBefore(div_element, msg_space);
+                    setTimeout(clearExerciseEntryMessage, 2000);
+                }
+                else{
+                div_element.className = "alert alert-danger text-center exercise-message";
+                div_element.appendChild(document.createTextNode("Error while updating exercise."));
+                form_element.insertBefore(div_element, msg_space);
+                setTimeout(clearExerciseEntryMessage, 2000);
+                }
+            }
+        })
+    })
+
     //Expense entry form save
     $(document).on("submit", "#expense_entry_form", function(e){
         e.preventDefault();
@@ -564,6 +602,11 @@ function showAllExpenseTrend(){
             alert("Unable to access expense trend");
         }
     }})
+}
+
+//function for removing messages from Exercise form
+function clearExerciseEntryMessage(){
+    document.querySelector(".exercise-message").remove();
 }
 
 // function for removing messages from the Journal form

@@ -35,6 +35,7 @@ urls = (
     '/savebook', 'SaveBook',
     '/deletebook', 'DeleteBook',
     '/health', 'Health',
+    '/updateExerciseStatus', 'UpdateExerciseStatus',
     '/journal', 'Journal',
     '/createjournal', 'createJournal',
     '/updatejournal', 'updateJournal',
@@ -406,6 +407,30 @@ class DeleteBook:
 class Health:
     def GET(self):
         return render.Health()
+
+
+class UpdateExerciseStatus:
+    def POST(self):
+        health_class = HealthModel.Health()
+        data = web.input()
+        if session_data["user"] is not None:
+            userid = session_data["user"]["UserId"]
+        else:
+            userid = ""
+
+        exercise_date = data["ExerciseDate"]
+        record_date = datetime.datetime.strptime(exercise_date, "%Y-%m-%d")
+
+        try:
+            exercise_update_result = health_class.update_exercise_status(userid, True, record_date)
+            print(exercise_update_result.modified_count)
+
+            if exercise_update_result.acknowledged:
+                return "success"
+            else:
+                return "error"
+        except Exception as ex:
+            return "error"
 
 
 class Journal:

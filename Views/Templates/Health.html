@@ -5,5 +5,27 @@
             You know that healthy habits, such as eating well, exercising, and avoiding harmful substances, make sense, but did you ever stop to think about why you practice them? A healthy habit is any behavior that benefits your physical, mental, and emotional health. These habits improve your overall well-being and make you feel good.
         </p>
         <p class="text-center"> So what are you waiting for? <a href="/login">Login</a> to see your content</p>
+    $else:
+        <div class="row">
+            <div class="col">
+                <p class="text-center lead text-dark">Exercise Entry</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-9">
+                <form id="exercise_single_entry_form">
+                    <div class="row">
+                        <div class="col-sm-3"> Enter the exercise date:</div>
+                        <div class="col-sm-3">
+                            <input type="date" class="form-control" placeholder="Date" name="ExerciseDate">
+                        </div>
+                        <div class="col-sm-3">
+                            <button type="submit" class="btn btn-outline-primary">Save</button>
+                        </div>
+                    </div>
+                    <div id="exercise_entry_msg_space"></div>
+                </form>
+            </div>
+        </div>
 
 </div>
