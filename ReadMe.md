@@ -9,8 +9,8 @@
 <th>Comments</th>
 </thead>
 <tbody>
-<tr><td>06 Jul 2021</td><td>Movies page added</td>
-  <td>User can keep track of watched movies and movies planned to watch.</td></tr>
+<tr><td>06 Jul 2021</td><td>Movies page added</td><td>User can keep track of watched movies and movies planned to watch.</td></tr>
+<tr><td>13 Jan 2023</td><td>Exercise Entry added</td><td>User can enter individual exercise date.</td></tr>
 </tbody>
 </table>
 
