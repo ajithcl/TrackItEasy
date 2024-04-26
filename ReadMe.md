@@ -12,6 +12,7 @@
 <tr><td>06 Jul 2021</td><td>Movies page added</td><td>User can keep track of watched movies and movies planned to watch.</td></tr>
 <tr><td>13 Jan 2024</td><td>Exercise Entry added</td><td>User can enter individual exercise date.</td></tr>
 <tr><td>22 jan 2024</td><td>Expense category updated</td><td>Expense category for children education</td></tr>
+<tr><td>26 Apr 2024</td><td>Movies type hard coding removed</td><td>Movies types settings fetched from table</td></tr>
 </tbody>
 </table>
 
