@@ -10,7 +10,7 @@ import web
 from bson import ObjectId
 
 from Models import UserAccountModel, BookModel, FeelingsModel, LearningsModel, ExpenseModel, ReminderModel, JournalModel
-from Models import HealthModel, Common, MoviesModel
+from Models import HealthModel, Common, MoviesModel, SettingsModel
 from datetime import date
 
 web.config.debug = False
@@ -276,7 +276,27 @@ class Places:
 
 class Movies:
     def GET(self):
-        return render.Movies()
+        settings = SettingsModel.Settings()
+        if session_data["user"] is not None:
+            userid = session_data["user"]["UserId"]
+        else:
+            userid = ""
+        movie_cursor = settings.get_settings(userid,
+                                             'Movies',
+                                             'Type')
+        movie_types = []
+        if movie_cursor is None:
+            movie_types = []
+            print ('Its None')
+        else:
+            for document in movie_cursor:
+                movie_types.append(document['Content'])
+            movie_cursor.close()
+
+        # TODO : movie types should be pulled from Settings model.
+        movie_data = {'movie_types': movie_types}
+
+        return render.Movies(movie_data)
 
 
 class Reminders:
@@ -625,7 +645,7 @@ class SaveMovie:
                        "Comments": data["Comments"],
                        "Watched": already_watched
                        }
-        print(insert_data)
+        # print(insert_data)
         result = movie.insert_one_movie(insert_data)
         return result
 

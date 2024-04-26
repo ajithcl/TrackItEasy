@@ -1,3 +1,4 @@
+$def with (movie_data)
 <div class="container">
     $if session["user"] == None:
         <p class="text-center lead">
@@ -34,11 +35,16 @@
                       </div>
                       <select class="custom-select" id="inputGroupSelectMovieType" name="Type">
                         <option selected>Choose...</option>
+                          <!--
                             <option value="Horror">Horror</option>
                             <option value="Action">Action</option>
                             <option value="Thriller">Thriller</option>
                             <option value="SciFi">SciFi</option>
                             <option value="Others">Others</option>
+                            -->
+                          $for movie_type in movie_data["movie_types"]:
+                            <option value=$movie_type>$movie_type</option>
+
                       </select>
                     </div>
 
