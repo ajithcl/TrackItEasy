@@ -281,23 +281,35 @@ class Movies:
             userid = session_data["user"]["UserId"]
         else:
             userid = ""
+        # Load movie types for the html drop down
         movie_cursor = settings.get_settings(userid,
                                              'Movies',
                                              'Type')
         movie_types = []
         if movie_cursor is None:
             movie_types = []
-            print ('Its None')
         else:
             for document in movie_cursor:
                 movie_types.append(document['Content'])
             movie_cursor.close()
 
-        # TODO : movie types should be pulled from Settings model.
-        movie_data = {'movie_types': movie_types}
+        # Load Movie languages for html drop down
+        movie_languages = []
+        movie_cursor = settings.get_settings(userid,
+                                             'Movies',
+                                             'Language')
+
+        if movie_cursor is None:
+            movie_languages = []
+        else:
+            for document in movie_cursor:
+                movie_languages.append(document['Content'])
+            movie_cursor.close()
+
+        movie_data = {'movie_types': movie_types,
+                      'movie_languages': movie_languages}
 
         return render.Movies(movie_data)
-
 
 class Reminders:
     def GET(self):
