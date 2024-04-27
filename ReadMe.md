@@ -13,6 +13,7 @@
 <tr><td>13 Jan 2024</td><td>Exercise Entry added</td><td>User can enter individual exercise date.</td></tr>
 <tr><td>22 jan 2024</td><td>Expense category updated</td><td>Expense category for children education</td></tr>
 <tr><td>26 Apr 2024</td><td>Movies type hard coding removed</td><td>Movies types settings fetched from table</td></tr>
+<tr><td>27 Apr 2024</td><td>Expenses categories hard coding removed</td><td>Expense categories added to Settings table</td></tr>
 </tbody>
 </table>
 

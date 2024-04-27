@@ -51,6 +51,9 @@ $def with (pageinput)
                         </div>
                         <div class="col-lg-10">
                             <select name="Category">
+                                $for category in pageinput["Categories"]:
+                                    <option value=$category>$category</option>
+                                <!--
                                 <option value="Others">Others</option>
                                 <option value="Studies">Studies</option>
                                 <option value="Education-Children">Education-Children</option>
@@ -77,6 +80,7 @@ $def with (pageinput)
                                 <option value="Family">Family</option>
                                 <option value="Appliances">Appliances</option>
                                 <option value="Gadgets">Gadgets</option>
+                                -->
                             </select>
                         </div>
                     </div>

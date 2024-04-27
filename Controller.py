@@ -566,12 +566,29 @@ class SaveFeeling:
 class Expenses:
     def GET(self):
         expense = ExpenseModel.Expense()
+        settings = SettingsModel.Settings()
+
         if session_data["user"] is None:
             userid = None
         else:
             userid = session_data["user"]["UserId"]
         currMonthAmt = expense.getCurrentMonthAmount(userid)
-        pageinput = {"CurrentMonthAmount": currMonthAmt}
+
+        #Load expense categories  for html drop down
+        expense_categories = []
+        settings_cursor = settings.get_settings(userid,
+                                                "Expenses",
+                                                "Category")
+        if settings_cursor is None:
+            expense_categories = []
+        else:
+            for document in settings_cursor:
+                expense_categories.append(document["Content"])
+        settings_cursor.close()
+
+        pageinput = {"CurrentMonthAmount": currMonthAmt,
+                     "Categories": expense_categories}
+
         return render.Expenses(pageinput)
 
 
