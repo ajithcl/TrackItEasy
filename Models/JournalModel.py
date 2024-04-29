@@ -36,7 +36,8 @@ class Journal:
         return results
 
     def getCountjournalsForUser(self, userid):
-        pass
+        documents_count = self.journal_table.count_documents({"UserId": userid})
+        return documents_count
 
     def getJournalRecord_one(self, input_id):
         object_id = input_id["ObjectId"]
@@ -46,7 +47,7 @@ class Journal:
             return "error"
 
     def delete_journal_one(self, input_id):
-        result = self.journal_table.delete_one({"_id":ObjectId(input_id)})
+        result = self.journal_table.delete_one({"_id": ObjectId(input_id)})
         if result.deleted_count > 0:
             return "success"
         else:

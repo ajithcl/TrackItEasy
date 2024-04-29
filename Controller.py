@@ -124,6 +124,7 @@ class Summary:
         monthly_exp_warning = False
         health_graph_loaded = "error"
         weekly_budget = 0
+        journals_count = 0
 
         if session_data["user"] is not None:
             # Last time visit
@@ -220,6 +221,10 @@ class Summary:
             health_class = HealthModel.Health()
             health_graph_loaded = health_class.get_current_year_graphics(userid=session_data["user"]["UserId"])
 
+            #Journal Count
+            journal_class = JournalModel.Journal()
+            journals_count = journal_class.getCountjournalsForUser(userid=session_data["user"]["UserId"])
+
         data = {"LastTimeVisit": lastTimeVisit,
                 "ExpenseCategoryAmounts": category_amounts_dict,
                 "ExpenseCurrentMonthAmount": current_month_expense_amount,
@@ -235,7 +240,8 @@ class Summary:
                 "PendingReminderList": pending_reminder_list,
                 "LearningList": learning_list,
                 "ExerciseGraph": health_graph_loaded,
-                "WeeklyBudget": weekly_budget
+                "WeeklyBudget": weekly_budget,
+                "JournalsCount": journals_count
                 }
         return render.Summary(data)
 
