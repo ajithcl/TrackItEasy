@@ -14,6 +14,8 @@
 <tr><td>22 jan 2024</td><td>Expense category updated</td><td>Expense category for children education</td></tr>
 <tr><td>26 Apr 2024</td><td>Movies type hard coding removed</td><td>Movies types settings fetched from table</td></tr>
 <tr><td>27 Apr 2024</td><td>Expenses categories hard coding removed</td><td>Expense categories added to Settings table</td></tr>
+<tr><td>29 Apr 2024</td><td>Journal Count</td><td>Journal count added to the summary page</td></tr>
+<tr><td>29 Apr 2024</td><td>Unwanted pages removed</td><td>Removed Photos and Places</td></tr>
 </tbody>
 </table>
 

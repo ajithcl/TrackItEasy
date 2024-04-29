@@ -26,7 +26,6 @@ urls = (
     '/books', 'Books',
     '/learnings', 'Learnings',
     '/savelearning', 'SaveLearning',
-    '/places', 'Places',
     '/reminders', 'Reminders',
     '/getallreminders', 'GetAllReminders',
     '/savereminder', 'SaveReminder',
@@ -41,7 +40,6 @@ urls = (
     '/updatejournal', 'updateJournal',
     '/getjournalone', 'GetJournalOne',
     '/delete_journal_one', 'DeleteJournalOne',
-    '/photos', 'Photos',
     '/feelings', 'Feelings',
     '/savefeeling', 'SaveFeeling',
     '/expenses', 'Expenses',
@@ -273,11 +271,6 @@ class SaveLearning:
                         "Subject": data["Subject"]}
         learning = LearningsModel.Learning()
         return learning.createLearning(learningData)
-
-
-class Places:
-    def GET(self):
-        return render.Places()
 
 
 class Movies:
@@ -543,12 +536,6 @@ class DeleteJournalOne:
         journal_class = JournalModel.Journal()
         result = journal_class.delete_journal_one(data["objectid"])
         return result
-
-
-class Photos:
-    def GET(self):
-        return render.Photos()
-
 
 class Feelings:
     def GET(self):
