@@ -1,6 +1,6 @@
 # LookAtYou - Personal management webpage
 
-### Update history
+### Change history
 
 <table>
 <thead>
