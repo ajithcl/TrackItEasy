@@ -16,6 +16,7 @@
 <tr><td>27 Apr 2024</td><td>Expenses categories hard coding removed</td><td>Expense categories added to Settings table</td></tr>
 <tr><td>29 Apr 2024</td><td>Journal Count</td><td>Journal count added to the summary page</td></tr>
 <tr><td>29 Apr 2024</td><td>Unwanted pages removed</td><td>Removed Photos and Places</td></tr>
+  <tr><td>29 Apr 2024</td><td>Movies update</td><td>Movies summary added</td></tr>
 </tbody>
 </table>
 
