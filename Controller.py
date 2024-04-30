@@ -123,6 +123,8 @@ class Summary:
         health_graph_loaded = "error"
         weekly_budget = 0
         journals_count = 0
+        current_year_movies_count = 0
+        current_movies_count = 0
 
         if session_data["user"] is not None:
             # Last time visit
@@ -223,6 +225,11 @@ class Summary:
             journal_class = JournalModel.Journal()
             journals_count = journal_class.getCountjournalsForUser(userid=session_data["user"]["UserId"])
 
+            #Movies
+            movies_class = MoviesModel.Movies()
+            current_year_movies_count = movies_class.get_movies_count_current_year(userid=session_data["user"]["UserId"])
+            current_movies_count = movies_class.get_movies_current_month(userid=session_data["user"]["UserId"])
+
         data = {"LastTimeVisit": lastTimeVisit,
                 "ExpenseCategoryAmounts": category_amounts_dict,
                 "ExpenseCurrentMonthAmount": current_month_expense_amount,
@@ -239,7 +246,9 @@ class Summary:
                 "LearningList": learning_list,
                 "ExerciseGraph": health_graph_loaded,
                 "WeeklyBudget": weekly_budget,
-                "JournalsCount": journals_count
+                "JournalsCount": journals_count,
+                "CurrentYearMoviesCount": current_year_movies_count,
+                "CurrentMonthMoviesCount": current_movies_count
                 }
         return render.Summary(data)
 
