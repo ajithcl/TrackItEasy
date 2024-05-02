@@ -125,6 +125,9 @@ class Summary:
         journals_count = 0
         current_year_movies_count = 0
         current_movies_count = 0
+        all_movies_count = 0
+        movietypes_wordcloud_loaded = "error"
+        movietypes_bar_created = "error"
 
         if session_data["user"] is not None:
             # Last time visit
@@ -229,6 +232,9 @@ class Summary:
             movies_class = MoviesModel.Movies()
             current_year_movies_count = movies_class.get_movies_count_current_year(userid=session_data["user"]["UserId"])
             current_movies_count = movies_class.get_movies_current_month(userid=session_data["user"]["UserId"])
+            all_movies_count = movies_class.get_movies_count_for_user(userid=session_data["user"]["UserId"])
+            movietypes_wordcloud_loaded = movies_class.get_wordcloud_for_movie_types(userid=session_data["user"]["UserId"])
+            movietypes_bar_created = movies_class.get_bar_for_movie_types(userid=session_data["user"]["UserId"])
 
         data = {"LastTimeVisit": lastTimeVisit,
                 "ExpenseCategoryAmounts": category_amounts_dict,
@@ -248,7 +254,10 @@ class Summary:
                 "WeeklyBudget": weekly_budget,
                 "JournalsCount": journals_count,
                 "CurrentYearMoviesCount": current_year_movies_count,
-                "CurrentMonthMoviesCount": current_movies_count
+                "CurrentMonthMoviesCount": current_movies_count,
+                "AllMoviesCount": all_movies_count,
+                "MoviesTypesWordCloud": movietypes_wordcloud_loaded,
+                "MoviesTypesBar": movietypes_bar_created
                 }
         return render.Summary(data)
 

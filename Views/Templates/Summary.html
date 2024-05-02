@@ -65,7 +65,7 @@ $def with (data)
                     <li class="list-group-item">Weekly budget : Rs.$data["WeeklyBudget"]</li>
                 </ul>
                 $if data["ExpenseYearGraph"] == "success":
-                    <img src="static/temp/expense.png">
+                    <img src="static/temp/expense.png" width="700px">
             </div>
             <br>
         </div>
@@ -118,7 +118,7 @@ $def with (data)
         <div class="row">
             <div class="col-lg-12">
                 $if data["ExerciseGraph"] == "success":
-                    <img src="static/temp/exercise.png">
+                    <img src="static/temp/exercise.png" width="700px">
             </div>
         </div>
         <hr>
@@ -156,7 +156,7 @@ $def with (data)
         </div>
         <hr>
         <div class="row">
-            <div class="col-lg-12 bgcolor_light_color1">
+            <div class="col-lg-12">
                 <h2 class="text-primary"> <small> <a href="/books">Books</a> </small></h2>
                 $if data["ReadInProgressBooks"] == None:
                     <h4 class="text-danger"><small> Looks like you are not reading any book now !!</small></h4>
@@ -171,26 +171,47 @@ $def with (data)
         </div>
         <div class="row">
             $if data["CompletedBooksCount"] > 0:
-                <div class="col-lg-2 bgcolor_light_color1">
-                    <img src="/static/Common/clap.png" class="img-fluid">
+                <div class="col-lg-2">
+                    <!---->
                 </div>
-                <div class="col-lg-10 bgcolor_light_color1">
-                    <p class="display-4 text-center text-warning">You completed reading $data["CompletedBooksCount"] books so far. Keep going..</p>
+                <div class="col-lg-10">
+                    <img src="/static/Common/clap.png" class="img-fluid" width="40px">
+                    <h4><small>
+                        You completed reading $data["CompletedBooksCount"] books so far. Keep going..
+                    </small></h4>
                 </div>
         </div>
         <hr>
             <div class="row">
                 <div class="col-lg-12">
                     <h2 class="text-primary"><small><a href="/movies">Movies</a></small></h2>
-                    Movies watched in current year : $data["CurrentYearMoviesCount"] <br>
-                    Movies watched in current month: $data["CurrentMonthMoviesCount"] <br>
+                    <h3 class="text-center">
+                        <small class="text-muted">
+                            $data["CurrentYearMoviesCount"] Films viewed during the present year.<br>
+                            $data["CurrentMonthMoviesCount"] Movies watched in current month. <br>
+                            $data["AllMoviesCount"] Movies viewed up to this point.<br>
+                        </small>
+                    </h3>
                 </div>
             </div>
+            $if data["MoviesTypesWordCloud"] == "success":
+                <div class="row">
+                    <div class="col-lg-6">
+                        <img src="static/temp/movies_types_wordcloud.png" width="500px" class="img-fluid">
+                    </div>
+                    <div class="col-lg-6">
+                        <img src="static/temp/movies_types_bar.png" width="500px" class="img-fluid">
+                    </div>
+                </div>
         <hr>
          <div class ="row">
-            <div class="col-lg-12 bgcolor_light_color1">
+            <div class="col-lg-12">
                 <h2 class="text-primary"> <small> <a href="/journal">Journal</a> </small></h2>
-                Journals count: $data["JournalsCount"]
+                <h3>
+                    <small class="text-muted">
+                        You logged $data["JournalsCount"] journals.
+                    </small>
+                </h3>
             </div>
 
          </div>
