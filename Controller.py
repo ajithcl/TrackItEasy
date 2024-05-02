@@ -128,6 +128,8 @@ class Summary:
         all_movies_count = 0
         movietypes_wordcloud_loaded = "error"
         movietypes_bar_created = "error"
+        movie_months_graph_created = "error"
+        movies_year_graph_created = "error"
 
         if session_data["user"] is not None:
             # Last time visit
@@ -235,6 +237,9 @@ class Summary:
             all_movies_count = movies_class.get_movies_count_for_user(userid=session_data["user"]["UserId"])
             movietypes_wordcloud_loaded = movies_class.get_wordcloud_for_movie_types(userid=session_data["user"]["UserId"])
             movietypes_bar_created = movies_class.get_bar_for_movie_types(userid=session_data["user"]["UserId"])
+            movie_months_graph_created = movies_class.get_bar_count_per_month(userid=session_data["user"]["UserId"])
+            movies_year_graph_created = movies_class.get_graph_count_per_year(userid=session_data["user"]["UserId"])
+
 
         data = {"LastTimeVisit": lastTimeVisit,
                 "ExpenseCategoryAmounts": category_amounts_dict,
@@ -257,7 +262,9 @@ class Summary:
                 "CurrentMonthMoviesCount": current_movies_count,
                 "AllMoviesCount": all_movies_count,
                 "MoviesTypesWordCloud": movietypes_wordcloud_loaded,
-                "MoviesTypesBar": movietypes_bar_created
+                "MoviesTypesBar": movietypes_bar_created,
+                "MoviesMonthsBar": movie_months_graph_created,
+                "MoviesYearGraph": movies_year_graph_created
                 }
         return render.Summary(data)
 

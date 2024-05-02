@@ -27,7 +27,7 @@ $def with (data)
         <hr>
         <div class="row">
             <div class="col-lg-12">
-                <h2 class="text-primary"> <small> <a href="/expenses">Expenses</a> </small></h2>
+                <h1 class="text-primary text-center display-3"> <small> <a href="/expenses">Expenses</a></small></h1>
                 <br>
             </div>
         </div>
@@ -72,7 +72,7 @@ $def with (data)
          <hr>
         <div class="row">
             <div class="col-lg-11">
-                <h2 class="text-primary"> <small> <a href="/reminders">Reminders</a> </small></h2>
+                <h1 class="text-primary text-center display-3"> <small> <a href="/reminders">Reminders</a> </small></h1>
             </div>
             <div class="col-lg-1">
                 <img src="/static/Common/Bell.png" class="img-fluid">
@@ -112,7 +112,7 @@ $def with (data)
         <hr>
         <div class="row">
             <div class="col-lg-12">
-                <h2 class="text-primary"> <small> <a href="#">Health</a> </small></h2>
+                <h1 class="text-primary text-center display-3"> <small> <a href="#">Health</a> </small></h1>
             </div>
         </div>
         <div class="row">
@@ -124,7 +124,9 @@ $def with (data)
         <hr>
         <div class="row">
             <div class="col-lg-12">
-                <h2 class="text-primary"> <small> <a href="/learnings">Learnings for the year</a> </small></h2>
+                <h1 class="text-primary text-center display-3">
+                    <small> <a href="/learnings">Learnings for the year</a> </small>
+                </h1>
             </div>
         </div>
         <div class = "row">
@@ -157,7 +159,7 @@ $def with (data)
         <hr>
         <div class="row">
             <div class="col-lg-12">
-                <h2 class="text-primary"> <small> <a href="/books">Books</a> </small></h2>
+                <h1 class="text-primary text-center display-3"> <small> <a href="/books">Books</a> </small></h1>
                 $if data["ReadInProgressBooks"] == None:
                     <h4 class="text-danger"><small> Looks like you are not reading any book now !!</small></h4>
                 $else:
@@ -184,7 +186,7 @@ $def with (data)
         <hr>
             <div class="row">
                 <div class="col-lg-12">
-                    <h2 class="text-primary"><small><a href="/movies">Movies</a></small></h2>
+                    <h1 class="text-primary text-center display-3"><small><a href="/movies">Movies</a></small></h1>
                     <h3 class="text-center">
                         <small class="text-muted">
                             $data["CurrentYearMoviesCount"] Films viewed during the present year.<br>
@@ -194,19 +196,30 @@ $def with (data)
                     </h3>
                 </div>
             </div>
-            $if data["MoviesTypesWordCloud"] == "success":
-                <div class="row">
+            <div class="row">
+                $if data["MoviesTypesWordCloud"] == "success":
                     <div class="col-lg-6">
                         <img src="static/temp/movies_types_wordcloud.png" width="500px" class="img-fluid">
                     </div>
+                $if data["MoviesTypesBar"] == "success":
                     <div class="col-lg-6">
                         <img src="static/temp/movies_types_bar.png" width="500px" class="img-fluid">
                     </div>
-                </div>
+            </div>
+            <div class="row">
+                $if data["MoviesMonthsBar"] == "success":
+                    <div class="col-lg-6">
+                        <img src="static/temp/movies_months_bar.png" width="500px" class="img-fluid">
+                    </div>
+                $if data["MoviesYearGraph"] == "success":
+                    <div class="col-lg-6">
+                        <img src="static/temp/movies_year_line.png" width="500px" class="img-fluid">
+                    </div>
+            </div>
         <hr>
          <div class ="row">
             <div class="col-lg-12">
-                <h2 class="text-primary"> <small> <a href="/journal">Journal</a> </small></h2>
+                <h1 class="text-primary text-center display-3"><small> <a href="/journal">Journal</a> </small></h1>
                 <h3>
                     <small class="text-muted">
                         You logged $data["JournalsCount"] journals.
