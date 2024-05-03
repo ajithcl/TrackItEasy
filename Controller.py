@@ -130,20 +130,23 @@ class Summary:
         movietypes_bar_created = "error"
         movie_months_graph_created = "error"
         movies_year_graph_created = "error"
+        movies_language_graph_created = "error"
 
         if session_data["user"] is not None:
+            # Store current userid from user session
+            current_user = session_data["user"]["UserId"]
             # Last time visit
             lastTimeVisit = humanize.naturaltime(datetime.datetime.now() - session_data["user"]["LastLoggedInTime"])
 
             # Expense summary
             expense = ExpenseModel.Expense()
-            category_amounts_dict = expense.getMonthlyExpenseCategorySplit(session_data["user"]["UserId"])
+            category_amounts_dict = expense.getMonthlyExpenseCategorySplit(current_user)
             if len(category_amounts_dict.items()) > 0:
                 key_of_maxvalue = max(category_amounts_dict, key=category_amounts_dict.get)
                 category_amounts_dict[key_of_maxvalue + '__max'] = category_amounts_dict[key_of_maxvalue]
                 del category_amounts_dict[key_of_maxvalue]
             # Current month expense
-            current_month_expense_amount = expense.getCurrentMonthAmount(session_data["user"]["UserId"])
+            current_month_expense_amount = expense.getCurrentMonthAmount(current_user)
             # Last month expense
             current_year = datetime.date.today().year
             if datetime.date.today().month == 1:
@@ -152,16 +155,16 @@ class Summary:
             else:
                 prev_month = datetime.date.today().month - 1
                 prev_year = current_year
-            last_month_expense_amount = expense.get_nth_month_amount(userid=session_data["user"]["UserId"],
+            last_month_expense_amount = expense.get_nth_month_amount(userid=current_user,
                                                                      month_n=prev_month,
                                                                      year_n=prev_year)
-            current_year_expense_graph_loaded = expense.current_year_total_graph(userid=session_data["user"]["UserId"])
+            current_year_expense_graph_loaded = expense.current_year_total_graph(userid=current_user)
 
             # Todays expense
-            today_expense = expense.getTodaysExpense(session_data["user"]["UserId"])
+            today_expense = expense.getTodaysExpense(current_user)
 
             # Monthly average expense
-            monthly_avg_expense = expense.getAverageMonthlyExpense(session_data["user"]["UserId"])
+            monthly_avg_expense = expense.getAverageMonthlyExpense(current_user)
 
             # Current month expense warning
             if current_month_expense_amount > 0.00:
@@ -177,11 +180,11 @@ class Summary:
 
             # Books details
             books = BookModel.Book()
-            book_read_list = books.getReadInProgressBookList(session_data["user"]["UserId"])
-            completed_books = books.getCompletedBooksCount(session_data["user"]["UserId"])
+            book_read_list = books.getReadInProgressBookList(current_user)
+            completed_books = books.getCompletedBooksCount(current_user)
             # Feelings details
             feelings = FeelingsModel.Feelings()
-            lastUpdateDate = feelings.getLastUpdatedDate(session_data["user"]["UserId"])
+            lastUpdateDate = feelings.getLastUpdatedDate(current_user)
             if lastUpdateDate is not None:
                 feelings_update_info = "Feelings information updated on " + str(lastUpdateDate)
             else:
@@ -190,7 +193,7 @@ class Summary:
             # Reminders
             reminder_model = ReminderModel.Reminder()
             start_date = datetime.datetime.now()
-            reminder_result = reminder_model.get_n_reminders(userid=session_data["user"]["UserId"],
+            reminder_result = reminder_model.get_n_reminders(userid=current_user,
                                                              start_date=start_date,
                                                              record_numbers=10)
 
@@ -202,7 +205,7 @@ class Summary:
                 }
                 reminder_list.append(reminder_dict)
 
-            reminder_result = reminder_model.get_n_pending_reminders(userid=session_data["user"]["UserId"],
+            reminder_result = reminder_model.get_n_pending_reminders(userid=current_user,
                                                                      record_count=10)
             for record in reminder_result:
                 reminder_dict = {
@@ -214,7 +217,7 @@ class Summary:
 
             # Learnings for the year
             learning_model = LearningsModel.Learning()
-            results = learning_model.getLearningsForCurrentYear(userid=session_data["user"]["UserId"])
+            results = learning_model.getLearningsForCurrentYear(userid=current_user)
             month_list = ["January", "February", "March", "April", "May", "June", "July", "August", "September",
                           "October", "November", "December"]
             for mnth in month_list:
@@ -224,22 +227,22 @@ class Summary:
 
             # Health details
             health_class = HealthModel.Health()
-            health_graph_loaded = health_class.get_current_year_graphics(userid=session_data["user"]["UserId"])
+            health_graph_loaded = health_class.get_current_year_graphics(userid=current_user)
 
             #Journal Count
             journal_class = JournalModel.Journal()
-            journals_count = journal_class.getCountjournalsForUser(userid=session_data["user"]["UserId"])
+            journals_count = journal_class.getCountjournalsForUser(userid=current_user)
 
             #Movies
             movies_class = MoviesModel.Movies()
-            current_year_movies_count = movies_class.get_movies_count_current_year(userid=session_data["user"]["UserId"])
-            current_movies_count = movies_class.get_movies_current_month(userid=session_data["user"]["UserId"])
-            all_movies_count = movies_class.get_movies_count_for_user(userid=session_data["user"]["UserId"])
-            movietypes_wordcloud_loaded = movies_class.get_wordcloud_for_movie_types(userid=session_data["user"]["UserId"])
-            movietypes_bar_created = movies_class.get_bar_for_movie_types(userid=session_data["user"]["UserId"])
-            movie_months_graph_created = movies_class.get_bar_count_per_month(userid=session_data["user"]["UserId"])
-            movies_year_graph_created = movies_class.get_graph_count_per_year(userid=session_data["user"]["UserId"])
-
+            current_year_movies_count = movies_class.get_movies_count_current_year(userid=current_user)
+            current_movies_count = movies_class.get_movies_current_month(userid=current_user)
+            all_movies_count = movies_class.get_movies_count_for_user(userid=current_user)
+            movietypes_wordcloud_loaded = movies_class.get_wordcloud_for_movie_types(userid=current_user)
+            movietypes_bar_created = movies_class.get_bar_for_movie_types(userid=current_user)
+            movie_months_graph_created = movies_class.get_bar_count_per_month(userid=current_user)
+            movies_year_graph_created = movies_class.get_graph_count_per_year(userid=current_user)
+            movies_language_graph_created = movies_class.get_bar_count_for_languages(userid=current_user)
 
         data = {"LastTimeVisit": lastTimeVisit,
                 "ExpenseCategoryAmounts": category_amounts_dict,
@@ -264,7 +267,8 @@ class Summary:
                 "MoviesTypesWordCloud": movietypes_wordcloud_loaded,
                 "MoviesTypesBar": movietypes_bar_created,
                 "MoviesMonthsBar": movie_months_graph_created,
-                "MoviesYearGraph": movies_year_graph_created
+                "MoviesYearGraph": movies_year_graph_created,
+                "MoviesLanguageGraph": movies_language_graph_created
                 }
         return render.Summary(data)
 

@@ -196,3 +196,46 @@ class Movies:
         plt.close()
 
         return "success"
+
+    def get_bar_count_for_languages(self, userid):
+        return_value = "error"
+        aggregation_pipeline = [{"$match": {"UserId": userid,
+                                            "Watched": True}},
+                                {"$group": {
+                                    "_id": {"Language": "$Language"},
+                                    "Count": {"$sum": 1}
+                                }}]
+
+        movies_cursor = self.movies.aggregate(aggregation_pipeline)
+
+        language_list = []
+        count_list = []
+
+        for document in movies_cursor:
+            language_list.append(document["_id"]["Language"])
+            count_list.append(document["Count"])
+        movies_cursor.close()
+
+        if len(language_list) > 0:
+            # Storing in dataframe for sorting purposes
+            df_languages = pd.DataFrame({"Languages": language_list,
+                                         "Count": count_list})
+
+            # Sort the Count so that graph looks nice
+            df_languages.sort_values(by=["Count"], inplace=True, ascending=False)
+
+            plt.bar(data=df_languages,x='Languages', height='Count')
+            plt.title("Languages")
+            plt.tight_layout(pad=1)
+            plt.savefig("static/temp/movies_languages_bar.png")
+            plt.close()
+            return_value = "success"
+        else:
+            return_value = "error"
+
+        return return_value
+
+    def get_start_end_dates(self, userid):
+        pass
+
+
