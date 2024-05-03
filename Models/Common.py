@@ -59,7 +59,8 @@ def get_remaining_weeknumbers_in_month():
 
 
 def get_start_end_dates(userid,
-                        collection_name):
+                        collection_name,
+                        field_name):
     client = MongoClient()
     db = client.PersonalWebDb
     collection = db[collection_name]
@@ -69,13 +70,22 @@ def get_start_end_dates(userid,
 
     # Aggregate pipeline to find minimum and maximum dates
     pipeline = []
+    document_field = "$" + field_name
     if collection_name == "Movies":
         pipeline = [{"$match": {"UserId": userid,
                                 "Watched": True}},
                     {"$group": {
                         "_id": None,
-                        "minDate": {"$min": "$WatchDate"},
-                        "maxDate": {"$max": "$WatchDate"}
+                        "minDate": {"$min": document_field},
+                        "maxDate": {"$max": document_field}
+                    }}
+                    ]
+    elif collection_name == "Books":
+        pipeline = [{"$match": {"UserId": userid}},
+                    {"$group": {
+                        "_id": None,
+                        "minDate": {"$min": document_field},
+                        "maxDate": {"$max": document_field}
                     }}
                     ]
 

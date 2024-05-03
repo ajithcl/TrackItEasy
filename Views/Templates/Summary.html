@@ -160,28 +160,33 @@ $def with (data)
         <div class="row">
             <div class="col-lg-12">
                 <h1 class="text-primary text-center display-3"> <small> <a href="/books">Books</a> </small></h1>
-                $if data["ReadInProgressBooks"] == None:
-                    <h4 class="text-danger"><small> Looks like you are not reading any book now !!</small></h4>
-                $else:
-                    <h4><small> You are yet to complete following book(s): </small></h4>
-                    <ol>
-                        $for book in data["ReadInProgressBooks"]:
-                            <li>$book["Name"] </li>
-                    </ol>
-                    <br>
+                <br>
+                <small class="text-muted">
+                    Books records are available from $data["BooksStartDate"]
+                </small>
+
+                <table class="table">
+                    <tr>
+                        <td>
+                            $if data["CompletedBooksCount"] > 0:
+                                <h1 class="display-1"> $data["CompletedBooksCount"] </h1>
+                                <h6 class="text-muted"> read so far, keep going..</h6>
+                        </td>
+                        <td>
+                            $if data["ReadInProgressBooks"] == None:
+                                <h4 class="text-danger">
+                                    <small> It appears that you're not presently engrossed in any books.</small>
+                                </h4>
+                            $else:
+                                <h4 class="text-secondary"><small> You are yet to complete following book(s): </small></h4>
+                                <ol>
+                                    $for book in data["ReadInProgressBooks"]:
+                                        <li>$book["Name"] </li>
+                                </ol>
+                        </td>
+                    </tr>
+                </table>
             </div>
-        </div>
-        <div class="row">
-            $if data["CompletedBooksCount"] > 0:
-                <div class="col-lg-2">
-                    <!---->
-                </div>
-                <div class="col-lg-10">
-                    <img src="/static/Common/clap.png" class="img-fluid" width="40px">
-                    <h4><small>
-                        You completed reading $data["CompletedBooksCount"] books so far. Keep going..
-                    </small></h4>
-                </div>
         </div>
         <hr>
             <div class="row">
@@ -194,15 +199,15 @@ $def with (data)
                         <tr>
                             <td>
                                 <h1 class="display-1">$data["AllMoviesCount"] </h1>
-                                <h6 class="text-muted">Movies viewed up to this point.</h6>
+                                <h6 class="text-muted">viewed up to this point.</h6>
                             </td>
                             <td>
                                 <h1 class="display-1"> $data["CurrentYearMoviesCount"]</h1>
-                                <h6 class="text-muted">Films viewed during the present year. </h6>
+                                <h6 class="text-muted">viewed during the present year. </h6>
                             </td>
                             <td>
                                 <h1 class="display-1">$data["CurrentMonthMoviesCount"]</h1>
-                                <h6 class="text-muted">Movies watched in current month.</h6>
+                                <h6 class="text-muted">viewed in current month.</h6>
                             </td>
                         </tr>
                     </table>

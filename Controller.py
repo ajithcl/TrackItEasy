@@ -109,6 +109,7 @@ class Summary:
         lastTimeVisit = None
         category_amounts_dict = {}
         book_read_list = None
+        books_start_date = None
         completed_books = 0
         feelings_update_info = ""
         current_month_expense_amount = 0
@@ -133,6 +134,7 @@ class Summary:
         movies_language_graph_created = "error"
         movies_start_date = None
         movies_end_date = None
+
 
         if session_data["user"] is not None:
             # Store current userid from user session
@@ -245,9 +247,15 @@ class Summary:
             movie_months_graph_created = movies_class.get_bar_count_per_month(userid=current_user)
             movies_year_graph_created = movies_class.get_graph_count_per_year(userid=current_user)
             movies_language_graph_created = movies_class.get_bar_count_for_languages(userid=current_user)
-            movies_start_end_dates = Common.get_start_end_dates(userid=current_user, collection_name="Movies")
+            movies_start_end_dates = Common.get_start_end_dates(userid=current_user,
+                                                                collection_name="Movies",
+                                                                field_name="WatchDate")
             movies_start_date = movies_start_end_dates['minDate']
             movies_end_date = movies_start_end_dates['maxDate']
+            books_start_end_date = Common.get_start_end_dates(userid=current_user,
+                                                              collection_name="Books",
+                                                              field_name="StartDate")
+            books_start_date = books_start_end_date['minDate']
 
         data = {"LastTimeVisit": lastTimeVisit,
                 "ExpenseCategoryAmounts": category_amounts_dict,
@@ -257,6 +265,7 @@ class Summary:
                 "ExpenseYearGraph": current_year_expense_graph_loaded,
                 "TodaysExpense": today_expense,
                 "MonthlyAverageExpense": monthly_avg_expense,
+                "BooksStartDate": books_start_date,
                 "ReadInProgressBooks": book_read_list,
                 "CompletedBooksCount": completed_books,
                 "LastFeelingUpdate": feelings_update_info,
