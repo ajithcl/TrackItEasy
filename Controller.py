@@ -131,6 +131,8 @@ class Summary:
         movie_months_graph_created = "error"
         movies_year_graph_created = "error"
         movies_language_graph_created = "error"
+        movies_start_date = None
+        movies_end_date = None
 
         if session_data["user"] is not None:
             # Store current userid from user session
@@ -229,11 +231,11 @@ class Summary:
             health_class = HealthModel.Health()
             health_graph_loaded = health_class.get_current_year_graphics(userid=current_user)
 
-            #Journal Count
+            # Journal Count
             journal_class = JournalModel.Journal()
             journals_count = journal_class.getCountjournalsForUser(userid=current_user)
 
-            #Movies
+            # Movies
             movies_class = MoviesModel.Movies()
             current_year_movies_count = movies_class.get_movies_count_current_year(userid=current_user)
             current_movies_count = movies_class.get_movies_current_month(userid=current_user)
@@ -243,6 +245,9 @@ class Summary:
             movie_months_graph_created = movies_class.get_bar_count_per_month(userid=current_user)
             movies_year_graph_created = movies_class.get_graph_count_per_year(userid=current_user)
             movies_language_graph_created = movies_class.get_bar_count_for_languages(userid=current_user)
+            movies_start_end_dates = Common.get_start_end_dates(userid=current_user, collection_name="Movies")
+            movies_start_date = movies_start_end_dates['minDate']
+            movies_end_date = movies_start_end_dates['maxDate']
 
         data = {"LastTimeVisit": lastTimeVisit,
                 "ExpenseCategoryAmounts": category_amounts_dict,
@@ -268,7 +273,9 @@ class Summary:
                 "MoviesTypesBar": movietypes_bar_created,
                 "MoviesMonthsBar": movie_months_graph_created,
                 "MoviesYearGraph": movies_year_graph_created,
-                "MoviesLanguageGraph": movies_language_graph_created
+                "MoviesLanguageGraph": movies_language_graph_created,
+                "MoviesStartDate": movies_start_date,
+                "MoviesEndDate": movies_end_date
                 }
         return render.Summary(data)
 

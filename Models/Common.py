@@ -1,5 +1,7 @@
 import datetime
 from datetime import date
+import pymongo
+from pymongo import MongoClient
 
 
 # This is the static function
@@ -54,3 +56,34 @@ def get_remaining_weeknumbers_in_month():
     last_date = datetime.date(year=curr_year, month=next_month, day=1)
     last_date = last_date - datetime.timedelta(days=1)
     return last_date.isocalendar()[1] - curr_date.isocalendar()[1] + 1
+
+
+def get_start_end_dates(userid,
+                        collection_name):
+    client = MongoClient()
+    db = client.PersonalWebDb
+    collection = db[collection_name]
+
+    minDate = None
+    maxDate = None
+
+    # Aggregate pipeline to find minimum and maximum dates
+    pipeline = []
+    if collection_name == "Movies":
+        pipeline = [{"$match": {"UserId": userid,
+                                "Watched": True}},
+                    {"$group": {
+                        "_id": None,
+                        "minDate": {"$min": "$WatchDate"},
+                        "maxDate": {"$max": "$WatchDate"}
+                    }}
+                    ]
+
+    collection_cursor = list(collection.aggregate(pipeline))
+
+    if collection_cursor:
+        minDate = collection_cursor[0]["minDate"]
+        maxDate = collection_cursor[0]["maxDate"]
+
+    return {"minDate": minDate,
+            "maxDate": maxDate}
