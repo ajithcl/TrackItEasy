@@ -27,7 +27,7 @@ $def with (data)
         <hr>
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="text-primary text-center display-3"> <small> <a href="/expenses">Expenses</a></small></h1>
+                <h1 class="text-primary text-center display-1"> <a href="/expenses">Expenses</a></h1>
                 <br>
             </div>
         </div>
@@ -72,7 +72,7 @@ $def with (data)
          <hr>
         <div class="row">
             <div class="col-lg-11">
-                <h1 class="text-primary text-center display-3"> <small> <a href="/reminders">Reminders</a> </small></h1>
+                <h1 class="text-primary text-center display-1"><a href="/reminders">Reminders</a></h1>
             </div>
             <div class="col-lg-1">
                 <img src="/static/Common/Bell.png" class="img-fluid">
@@ -112,7 +112,7 @@ $def with (data)
         <hr>
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="text-primary text-center display-3"> <small> <a href="#">Health</a> </small></h1>
+                <h1 class="text-primary text-center display-1"> <a href="#">Health</a></h1>
             </div>
         </div>
         <div class="row">
@@ -159,7 +159,7 @@ $def with (data)
         <hr>
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="text-primary text-center display-3"> <small> <a href="/books">Books</a> </small></h1>
+                <h1 class="text-primary text-center display-1"><a href="/books">Books</a></h1>
                 <br>
                 <small class="text-muted">
                     Books records are available from $data["BooksStartDate"]
@@ -193,11 +193,15 @@ $def with (data)
                 <div class="col-lg-6">
                     <img src="static/temp/books_per_year_graph.png" class="img-fluid">
                 </div>
+                <div class="col-lg-6">
+                    $if data["BooksPerMonthInCurrentYear"] == "success":
+                        <img src="static/temp/books_per_month_current_year.png" class="img-fluid">
+                </div>
             </div>
         <hr>
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="text-primary text-center display-3"><a href="/movies">Movies</a></h1>
+                    <h1 class="text-primary text-center display-1"><a href="/movies">Movies</a></h1>
                     <small class="text-muted">
                     Movies records are available from $data["MoviesStartDate"] to $data["MoviesEndDate"]
                     </small>
@@ -248,7 +252,7 @@ $def with (data)
         <hr>
          <div class ="row">
             <div class="col-lg-12">
-                <h1 class="text-primary text-center display-3"><small> <a href="/journal">Journal</a> </small></h1>
+                <h1 class="text-primary text-center display-1"> <a href="/journal">Journal</a></h1>
                 <h3>
                     <small class="text-muted">
                         You logged $data["JournalsCount"] journals.
