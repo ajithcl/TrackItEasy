@@ -123,6 +123,7 @@ class Book:
             plt.plot(x_mon, y_cnt)
             for mon, cnt in zip(x_mon, y_cnt):
                 plt.annotate(cnt, xy=(mon, cnt))
+            plt.title("Books per month in this year")
             plt.savefig("static/temp/books_per_month_current_year.png")
             plt.close()
 
