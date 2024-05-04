@@ -66,7 +66,7 @@ class Book:
         if books_cursor:
             for document in books_cursor:
                 if document['_id'] != 9999:
-                    year_list.append(document['_id'])
+                    year_list.append(str(document['_id']))
                     count_list.append(document['Count'])
 
             # Plot the line graph

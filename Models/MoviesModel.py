@@ -29,7 +29,9 @@ class Movies:
     def get_movies_count_current_year(self, userid):
         current_year = datetime.datetime.now().year
         start_date = datetime.datetime(current_year, 1, 1)
-        today = datetime.datetime.now().today()
+        today = datetime.datetime.now().today().date()
+        today = datetime.datetime.strftime(today, "%Y-%m-%d")
+        today = datetime.datetime.strptime(today, "%Y-%m-%d")
         movies_count = self.get_movies_count(userid,
                                              start_date,
                                              today)
