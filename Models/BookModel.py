@@ -2,6 +2,7 @@ import pymongo
 import datetime
 from bson import ObjectId
 from pymongo import MongoClient
+import matplotlib.pyplot as plt
 
 
 class Book:
@@ -49,6 +50,36 @@ class Book:
             return None
         else:
             return book_list
+
+    def getBooksReadPerYearGraph(self, userid):
+        return_value = "error"
+        aggregation_pipeline = [{"$match": {"UserId": userid}},
+                                {"$project": {"year": {"$year": "$EndDate"}}},       # Extract year from EndDate
+                                {"$group": {"_id": "$year", "Count": {"$sum": 1}}},  # Group by year and count
+                                {"$sort": {"_id": 1}}                                # Optionally sort by year
+                                ]
+
+        books_cursor = self.books.aggregate(aggregation_pipeline)
+        year_list = []
+        count_list = []
+        if books_cursor:
+            for document in books_cursor:
+                if document['_id'] != 9999:
+                    year_list.append(document['_id'])
+                    count_list.append(document['Count'])
+
+            # Plot the line graph
+
+            plt.plot(year_list, count_list)
+            #plt.tight_layout(pad=0)
+            plt.title("Books read per Year")
+            plt.savefig("static/temp/books_per_year_graph.png")
+            plt.close()
+            return_value = "success"
+        else:
+            return_value = "error"
+
+        return return_value
 
     def getCompletedBooksCount(self, userid):
         result = self.books.count_documents({"UserId": userid,

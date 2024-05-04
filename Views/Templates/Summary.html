@@ -188,6 +188,12 @@ $def with (data)
                 </table>
             </div>
         </div>
+        $if data["BooksPerYearGraph"] == "success":
+            <div class="row">
+                <div class="col-lg-6">
+                    <img src="static/temp/books_per_year_graph.png" class="img-fluid">
+                </div>
+            </div>
         <hr>
             <div class="row">
                 <div class="col-lg-12">

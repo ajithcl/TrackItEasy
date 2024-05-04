@@ -111,6 +111,7 @@ class Summary:
         book_read_list = None
         books_start_date = None
         completed_books = 0
+        books_read_year_graph = "error"
         feelings_update_info = ""
         current_month_expense_amount = 0
         last_month_expense_amount = 0
@@ -186,6 +187,8 @@ class Summary:
             books = BookModel.Book()
             book_read_list = books.getReadInProgressBookList(current_user)
             completed_books = books.getCompletedBooksCount(current_user)
+            books_read_year_graph = books.getBooksReadPerYearGraph(current_user)
+
             # Feelings details
             feelings = FeelingsModel.Feelings()
             lastUpdateDate = feelings.getLastUpdatedDate(current_user)
@@ -268,6 +271,7 @@ class Summary:
                 "BooksStartDate": books_start_date,
                 "ReadInProgressBooks": book_read_list,
                 "CompletedBooksCount": completed_books,
+                "BooksPerYearGraph": books_read_year_graph,
                 "LastFeelingUpdate": feelings_update_info,
                 "ReminderList": reminder_list,
                 "PendingReminderList": pending_reminder_list,
