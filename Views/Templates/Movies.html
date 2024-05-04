@@ -27,7 +27,7 @@ $def with (movie_data)
                                 <input type="checkbox" class="form-check-input" value="True" id="watched_check_id" name="watched" checked>
                                 Already watched.
                             </label>
-                        </div>
+                    </div>
 
                     <div class="input-group mb-1">
                       <div class="input-group-prepend">
@@ -37,7 +37,6 @@ $def with (movie_data)
                         <option selected>Choose...</option>
                           $for movie_type in movie_data["movie_types"]:
                             <option value=$movie_type>$movie_type</option>
-
                       </select>
                     </div>
 
@@ -69,6 +68,11 @@ $def with (movie_data)
                     <button type="submit" class="btn btn-outline-primary" id="btn_Movies_save">Save</button>
 
                 </form>
+                $if len(movie_data["movie_languages"]) == 0:
+                    <div class="text-danger">* Languages not configured for this user. Update Settings. <br><div>
+                $if len (movie_data["movie_types"]) == 0 :
+                    <div class="text-danger">* Movie types not configured for this user. Update Settings. <br> </div>
+
             </div>
             <div class="col-lg-2"></div>
         </div>
@@ -85,5 +89,4 @@ $def with (movie_data)
                 <span id="ViewMovieContentId" hidden></span>
             </div>
         </div>
-
 </div>

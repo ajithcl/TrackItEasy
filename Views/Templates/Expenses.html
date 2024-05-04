@@ -54,6 +54,8 @@ $def with (pageinput)
                                 $for category in pageinput["Categories"]:
                                     <option value=$category>$category</option>
                             </select>
+                            $if len(pageinput["Categories"]) == 0:
+                                <div class="text-danger">No categories configured! Update Settings. </div>
                         </div>
                     </div>
                     <br/>
