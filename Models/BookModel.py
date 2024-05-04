@@ -98,9 +98,6 @@ class Book:
                                 {"$project": {"month": {"$month": "$EndDate"}}},
                                 {"$group": {"_id": "$month", "Count": {"$sum": 1}}}
                                 ]
-
-        print (aggregation_pipeline)   # ToDo
-
         expense_cursor = self.books.aggregate(aggregation_pipeline)
 
         month_list = []

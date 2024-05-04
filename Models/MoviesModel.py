@@ -60,28 +60,36 @@ class Movies:
         return movies_count
 
     def get_wordcloud_for_movie_types(self, userid):
+        return_result = "error"
         movies_type_list = []
         field_selection = {"MovieType": 1, "_id": 0}
         movies_cursor = self.movies.find({"UserId": userid,
                                           "Watched": True},
                                          field_selection)
 
-        for document in movies_cursor:
-            movies_type_list.append(document["MovieType"])
+        if movies_cursor:
+            for document in movies_cursor:
+                movies_type_list.append(document["MovieType"])
 
-        movies_cursor.close()
+            movies_cursor.close()
 
-        wc = WordCloud(background_color='white', collocations=False).generate(
-            " ".join(movies_type_list))
+            if len(movies_type_list) > 0 :
+                wc = WordCloud(background_color='white', collocations=False).generate(
+                    " ".join(movies_type_list))
 
-        plt.imshow(wc, interpolation='bilinear')
-        plt.axis('off')
-        plt.tight_layout(pad=0)
-        plt.savefig("static/temp/movies_types_wordcloud.png")
-        plt.close()
+                plt.imshow(wc, interpolation='bilinear')
+                plt.axis('off')
+                plt.tight_layout(pad=0)
+                plt.savefig("static/temp/movies_types_wordcloud.png")
+                plt.close()
 
-        return "success"
-        # TODO : Add error handling with success and failure
+                return_result = "success"
+            else:
+                return_result = "error"
+        else:
+            return_result = "error"
+
+        return return_result
 
     def get_bar_for_movie_types(self, userid):
         bargraph_created = "error"
