@@ -1,4 +1,4 @@
-# LookAtYou - Personal management webpage
+# TrackItEasy - Personal management webpage
 
 ### Change history
 
@@ -18,6 +18,7 @@
 <tr><td>29 Apr 2024</td><td>Unwanted pages removed</td><td>Removed Photos and Places</td></tr>
 <tr><td>29 Apr 2024</td><td>Movies update</td><td>Movies summary added</td></tr>
 <tr><td>02 May 2024</td><td>Movies update</td><td>Added more movies summary</td></tr>
+<tr><td>17 May 2024</td><td>TrackItEasy</td><td>Application name changed from LookAtYou to TrackItEasy</td></tr>
 </tbody>
 </table>
 
