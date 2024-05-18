@@ -19,6 +19,7 @@
 <tr><td>29 Apr 2024</td><td>Movies update</td><td>Movies summary added</td></tr>
 <tr><td>02 May 2024</td><td>Movies update</td><td>Added more movies summary</td></tr>
 <tr><td>17 May 2024</td><td>TrackItEasy</td><td>Application name changed from LookAtYou to TrackItEasy</td></tr>
+<tr><td>18 May 2024</td><td>Movies Model update</td><td>Sorting issue fixed for the graph - Movies watched per year</td></tr>
 </tbody>
 </table>
 

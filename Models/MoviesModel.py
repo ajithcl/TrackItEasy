@@ -186,7 +186,8 @@ class Movies:
                                 {"$group": {
                                     "_id": {"$year": "$WatchDate"},
                                     "MovieCount": {"$sum": 1}
-                                }}
+                                }},
+                                {"$sort": {"_id": 1}}  # sort by year
                                 ]
         movies_cursor = self.movies.aggregate(aggregation_pipeline)
 
