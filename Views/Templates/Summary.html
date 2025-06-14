@@ -3,7 +3,7 @@ $def with (data)
     <div class="row">
         <div class="col-lg-12">
             $if session["user"] == None:
-                <br>
+                <div class="my-3"></div>
                 <p class = "text-center">Please <a href = "/login">login </a> to see your summary and progress made so far.. </p>
                 <hr>
         </div>
@@ -14,99 +14,149 @@ $def with (data)
                 <br>
             </div>
         </div>
-        <div class="row border1">
-            <div class="col-lg-12 bgcolor_light_color1">
-                <h2><small><span id="set-greetings"></span> $session["user"]["UserId"],</small></h2>
-                <p class="font-italic text-primary">You visited last time on $data["LastTimeVisit"]</p>
-                <p class="font-italic text-primary">$data["LastFeelingUpdate"]. Click <a href="/feelings">here</a> to update. </p>
-                <p class="font-italic text-primary">Last time backup took on date.Click to back up now.</p>
+        <div class="row my-4">
+            <div class="col-lg-12">
+            <div class="card shadow-sm border-0">
+                <div class="card-body bg-light">
+                <h2 class="h4 mb-3">
+                    <span id="set-greetings"></span>
+                    <span class="fw-bold text-primary">$session["user"]["UserId"]</span>
+                </h2>
+                <p class="mb-2 text-secondary">
+                    <i class="bi bi-clock-history me-2"></i>
+                    Last visit: <span class="fw-semibold">$data["LastTimeVisit"]</span>
+                </p>
+                <p class="mb-2 text-secondary">
+                    <i class="bi bi-emoji-smile me-2"></i>
+                    $data["LastFeelingUpdate"]
+                    <span class="ms-2">
+                    <a href="/feelings" class="link-primary">Update feelings</a>
+                    </span>
+                </p>
+                <p class="mb-2 text-secondary">
+                    <i class="bi bi-cloud-arrow-down me-2"></i>
+                    Last backup: <span class="fw-semibold">[date not available]</span>
+                    <span class="ms-2">
+                    <a href="#" class="btn btn-sm btn-outline-primary">Backup now</a>
+                    </span>
+                </p>
                 $if data["ExpenseWarning"] == True:
-                <p class="font-italic text-danger"><b>Monthly expense warning!</b></p>
-            </div>
-        </div>
-        <hr>
-        <div class="row">
-            <div class="col-lg-12">
-                <h1 class="text-primary text-center display-1"> <a href="/expenses">Expenses</a></h1>
-                <br>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-5">
-                <h4><small>Total expense for the current month:</small></h4>
-            </div>
-            <div class="col-lg-7">
-                <h2 class="text-danger">Rs. $data["ExpenseCurrentMonthAmount"]</h2>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card-columns">
-                    $for key in data["ExpenseCategoryAmounts"]:
-                          $if '__max' in key:
-                              <div class="card bg-danger">
-                          $else:
-                              <div class="card bg-light">
-                          <div class="card-body text-center">
-                              <h4 class="card-title">$key.strip("__max")</h4>
-                              <p class="card-text">Rs. $data["ExpenseCategoryAmounts"][key]</p>
-                          </div>
-                          </div>
+                    <div class="alert alert-danger mt-3 mb-0 py-2 px-3" role="alert">
+                    <strong>Monthly expense warning!</strong>
+                    </div>
                 </div>
             </div>
+            </div>
         </div>
         <hr>
+        <div class="row mb-3">
+            <div class="col-lg-12 text-center">
+                <h3 class="text-primary mb-1">
+                    <a href="/expenses" class="text-decoration-none text-primary">Expenses</a>
+                </h3>
+            </div>
+        </div>
+        <div class="row align-items-center mb-3">
+            <div class="col-lg-5">
+            <h5 class="mb-0 text-secondary">Total Expense (Current Month):</h5>
+            </div>
+            <div class="col-lg-7">
+            <h2 class="text-danger fw-bold mb-0">₹ $data["ExpenseCurrentMonthAmount"]</h2>
+            </div>
+        </div>
+        <div class="row justify-content-center">
+                
+                    $for key in data["ExpenseCategoryAmounts"]:
+                          $if '__max' in key:
+                            <div class="col-6 col-sm-4 col-md-3 mb-3">
+                              <div class="card card-sm bg-danger text-white text-center">
+                          $else:
+                              <div class="col-6 col-sm-4 col-md-3 mb-3">
+                                <div class="card card-sm bg-light text-center">
+                          <div class="card-body">
+                              <h4 class="card-title">$key.replace('__max', '')</h4>
+                              <p class="card-text">₹ $data["ExpenseCategoryAmounts"][key]</p>
+                          </div>
+                          </div>
+                          </div>
+        </div>
+        <hr class="my-4 border-top border-primary">
         <div class="row">
-            <div class="col-lg-12 font1">
+            <div class="col-lg-12">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                <h5 class="mb-0">Expense Summary</h5>
+                </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item">Today's expense: Rs.$data["TodaysExpense"]</li>
-                    <li class="list-group-item">Last month expense: Rs.$data["ExpenseLastMonthAmount"]</li>
-                    <li class="list-group-item">Average monthly expense (current year) : Rs.$data["MonthlyAverageExpense"]</li>
-                    <li class="list-group-item">Weekly budget : Rs.$data["WeeklyBudget"]</li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>Today's Expense</span>
+                    <span class="fw-bold text-danger">₹ $data["TodaysExpense"]</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>Last Month's Expense</span>
+                    <span class="fw-bold">₹ $data["ExpenseLastMonthAmount"]</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>Average Monthly Expense (Current Year)</span>
+                    <span class="fw-bold">₹ $data["MonthlyAverageExpense"]</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <span>Weekly Budget</span>
+                    <span class="fw-bold text-success">₹ $data["WeeklyBudget"]</span>
+                </li>
                 </ul>
                 $if data["ExpenseYearGraph"] == "success":
-                    <img src="static/temp/expense.png" width="700px">
+                <div class="card-body text-center">
+                    <img src="static/temp/expense.png" class="img-fluid" alt="Expense Year Graph">
+                </div>
             </div>
-            <br>
+            </div>
         </div>
-         <hr>
-        <div class="row">
+        <hr>
+        <div class="row align-items-center">
             <div class="col-lg-11">
-                <h1 class="text-primary text-center display-1"><a href="/reminders">Reminders</a></h1>
+            <h1 class="text-primary text-center display-4 mb-0">
+                <a href="/reminders" class="text-decoration-none text-primary">Reminders</a>
+            </h1>
             </div>
-            <div class="col-lg-1">
-                <img src="/static/Common/Bell.png" class="img-fluid">
+            <div class="col-lg-1 text-end">
+            <img src="/static/Common/Bell.png" class="img-fluid" alt="Reminders Icon" style="max-height: 48px;">
             </div>
         </div>
         <div class="row">
             <div class="col-lg-12">
-                $if data["ReminderList"] == None:
-                    <h4>No reminders</h4>
-                $else:
-                    <table class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Event Name</th>
-                                <th>Due on</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+            $if not data["ReminderList"] and not data["PendingReminderList"]:
+                <div class="alert alert-info text-center my-4" role="alert">
+                <strong>No reminders available.</strong>
+                </div>
+            $else:
+                <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle">
+                    <thead class="table-primary">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Event Name</th>
+                        <th scope="col">Due On</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    $if data["ReminderList"]:
                         $for record in data["ReminderList"]:
                             <tr>
                                 <td>$record["ReminderId"]</td>
-                                <td>$record["EventName"] </td>
-                                <td>$record["NextDate"] </td>
+                                <td>$record["EventName"]</td>
+                                <td>$record["NextDate"]</td>
                             </tr>
+                    $if data["PendingReminderList"]:
                         $for record in data["PendingReminderList"]:
-                            <tr>
+                            <tr class="table-warning">
                                 <td>$record["ReminderId"]</td>
-                                <td>$record["EventName"] </td>
-                                <td class="text-danger">$record["NextDate"] </td>
+                                <td>$record["EventName"]</td>
+                                <td class="text-danger fw-bold">$record["NextDate"]</td>
                             </tr>
-                        </tbody>
-                    </table>
-                    <br>
+                    </tbody>
+                </table>
+                </div>
             </div>
         </div>
         <hr>
