@@ -10,6 +10,18 @@ app = Flask(__name__)
 csrf = CSRFProtect(app)
 settings_class = Settings()
 
+
+def _required_expense_fields_missing(data):
+    required = ("UserId", "Category", "Amount", "ExpenseDate")
+    missing = []
+    for field in required:
+        if field not in data or data[field] is None:
+            missing.append(field)
+        elif isinstance(data[field], str) and not data[field].strip():
+            missing.append(field)
+    return missing
+
+
 # ─── GET Current Month Total Amount ───────────────────────────
 @app.route('/api/expense/current_month/total', methods=['GET'])
 def get_current_month_total():
@@ -20,7 +32,17 @@ def get_current_month_total():
 @csrf.exempt
 @app.route('/api/expense/create', methods=['POST'])
 def create_expense():
-    data = request.get_json()
+    data = request.get_json(silent=True)
+    if not isinstance(data, dict):
+        return jsonify({"status": "error", "message": "JSON body required"}), 400
+
+    missing = _required_expense_fields_missing(data)
+    if missing:
+        return jsonify({
+            "status": "error",
+            "message": "Missing required fields: " + ", ".join(missing)
+        }), 400
+
     data['ExpenseDate'] = datetime.strptime(data['ExpenseDate'], "%Y-%m-%d")
     category_code =  data['Category']
 
