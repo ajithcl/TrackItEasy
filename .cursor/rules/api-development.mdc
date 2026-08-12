@@ -9,7 +9,7 @@ alwaysApply: false
 - Expense REST API uses Flask in `API/` (do not add another framework).
 - Validate required request fields in the API layer before calling Models.
 - Prefer small private helpers over new validation frameworks or dependencies.
-- Use `request.get_json(silent=True)` when returning consistent JSON 400 errors.
+- Handle malformed or missing JSON at the API boundary and return consistent JSON 400 responses.
 - Keep success/error JSON shapes consistent (`status`, `message`).
 - Do not write to real MongoDB during verification unless the user explicitly approves.
 - Prefer Flask test client + mocks for API checks when safe.

@@ -43,7 +43,14 @@ def create_expense():
             "message": "Missing required fields: " + ", ".join(missing)
         }), 400
 
-    data['ExpenseDate'] = datetime.strptime(data['ExpenseDate'], "%Y-%m-%d")
+    try:
+        data['ExpenseDate'] = datetime.strptime(data['ExpenseDate'], "%Y-%m-%d")
+    except (ValueError, TypeError):
+        return jsonify({
+            "status": "error",
+            "message": "Invalid ExpenseDate format"
+        }), 400
+
     category_code =  data['Category']
 
     category_cursor= settings_class.get_settings(userid='Ajith',  module= 'Expenses', attribute='Category')
