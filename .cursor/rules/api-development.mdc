@@ -1,0 +1,16 @@
+---
+description: Conventions for TrackItEasy Flask API development
+globs: API/**/*.py
+alwaysApply: false
+---
+
+# API Development
+
+- Expense REST API uses Flask in `API/` (do not add another framework).
+- Validate required request fields in the API layer before calling Models.
+- Prefer small private helpers over new validation frameworks or dependencies.
+- Use `request.get_json(silent=True)` when returning consistent JSON 400 errors.
+- Keep success/error JSON shapes consistent (`status`, `message`).
+- Do not write to real MongoDB during verification unless the user explicitly approves.
+- Prefer Flask test client + mocks for API checks when safe.
+- Keep changes scoped to the requested API task; do not modify Models unless required.

@@ -1,0 +1,12 @@
+---
+alwaysApply: true
+---
+# TrackItEasy Architecture
+
+- Main application uses **web.py** (`Controller.py`, `Views/`, sessions).
+- Expense REST API uses **Flask** (`API/ExpenseApi.py`).
+- Do **not** introduce a new web framework.
+- Do **not** refactor architecture unless explicitly requested.
+- Before changing architecture, explain the proposed change and wait for approval.
+- Keep changes scoped to the requested task (no unrelated files or drive-by refactors).
+- Existing MongoDB data access is implemented through Models and existing shared data-access helpers; preserve this pattern unless explicitly requested.
