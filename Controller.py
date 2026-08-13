@@ -689,6 +689,19 @@ class UploadExpenses:
             })
 
         userid = session_data["user"]["UserId"]
+        settings = SettingsModel.Settings()
+        expense_settings_cursor = settings.get_settings(userid, "Expenses", "Category")
+        expense_categories = []
+        if expense_settings_cursor is not None:
+            for document in expense_settings_cursor:
+                expense_categories.append(document["Content"])
+        if not expense_categories:
+            return json.dumps({
+                "ok": 0,
+                "failed": 0,
+                "errors": ["No categories configured! Update Settings."]
+            })
+
         expense = ExpenseModel.Expense()
         ok_count = 0
         failed_count = 0
@@ -707,6 +720,11 @@ class UploadExpenses:
                     failed_count += 1
                     errors.append("Row " + str(index) + ": ExpenseDate is required")
                     continue
+                category_name = str(row["Category"]).strip()
+                if category_name not in expense_categories:
+                    failed_count += 1
+                    errors.append("Row " + str(index) + ": Invalid category: " + category_name)
+                    continue
                 raw_date = row["ExpenseDate"]
                 if hasattr(raw_date, "to_pydatetime"):
                     row_expense_date = raw_date.to_pydatetime().replace(
@@ -717,7 +735,7 @@ class UploadExpenses:
                     "UserId": userid,
                     "ExpenseDate": row_expense_date,
                     "Amount": int(float(row["Amount"])),
-                    "Category": str(row["Category"]).strip(),
+                    "Category": category_name,
                     "Description": description
                 }
                 result = expense.createExpense(send_data)
