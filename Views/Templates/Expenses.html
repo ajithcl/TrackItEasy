@@ -19,55 +19,87 @@ $def with (pageinput)
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-3"></div>
-            <div class="col-lg-6" style="background-color:#EBF5FB">
-                <form id="expense_entry_form">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <p class="text-center lead text-dark">Expense Entry</p>
+            <div class="col-lg-6 mb-3">
+                <div class="expense-entry-panel p-4 h-100" style="background-color:#EBF5FB">
+                    <form id="expense_entry_form">
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="text-center lead text-dark">Expense Entry</p>
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-2">
-                            <p>Amount:</p>
+                        <div class="row align-items-center mb-2">
+                            <div class="col-4">
+                                <p class="mb-0">Amount:</p>
+                            </div>
+                            <div class="col-8">
+                                <input type="number" class="form-control" placeholder="amount spent" name="Amount">
+                            </div>
                         </div>
-                        <div class="col-lg-10">
-                            <input type="number" class="form-control" placeholder="amount spent" name="Amount">
+                        <div class="row align-items-center mb-2">
+                            <div class="col-4">
+                                <p class="mb-0">Date:</p>
+                            </div>
+                            <div class="col-8">
+                                <input type="date" class="form-control" placeholder="Date" name="ExpenseDate">
+                            </div>
                         </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-lg-2">
-                            <p>Date:</p>
+                        <div class="row align-items-center mb-2">
+                            <div class="col-4">
+                                Category:
+                            </div>
+                            <div class="col-8">
+                                <select name="Category" class="form-control">
+                                    $for category in pageinput["Categories"]:
+                                        <option value=$category>$category</option>
+                                </select>
+                                $if len(pageinput["Categories"]) == 0:
+                                    <div class="text-danger">No categories configured! Update Settings. </div>
+                            </div>
                         </div>
-                        <div class="col-lg-10">
-                            <input type="date" class="form-control" placeholder="Date" name="ExpenseDate">
+                        <p class="mb-1">Description: </p>
+                        <textarea class="form-control mb-3" aria-label="Enter the description" name="Description"></textarea>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-outline-primary">Save</button>
                         </div>
-                    </div>
-                    <br>
-                    <div class="row">
-                        <div class="col-lg-2">
-                            Category:
-                        </div>
-                        <div class="col-lg-10">
-                            <select name="Category">
-                                $for category in pageinput["Categories"]:
-                                    <option value=$category>$category</option>
-                            </select>
-                            $if len(pageinput["Categories"]) == 0:
-                                <div class="text-danger">No categories configured! Update Settings. </div>
-                        </div>
-                    </div>
-                    <br/>
-                    <p>Description: </p>
-                    <textarea class="form-control" aria-label="Enter the description" name="Description"></textarea>
-                    <br>
-                    <div style="margin:auto;width:20%;">
-                        <button type="submit" class="btn btn-outline-primary">Save</button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-            <div class="col-lg-3"></div>
+            <div class="col-lg-6 mb-3">
+                <div class="expense-upload-panel p-4 h-100" style="background-color:#EBF5FB">
+                    <form id="expense_excel_upload_form">
+                        <div class="text-center mb-3">
+                            <div class="expense-upload-icon mb-2">
+                                <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                            </div>
+                            <h5 class="text-dark mb-1">Upload Expenses from Excel</h5>
+                            <p class="text-muted mb-0 small">Required columns: Category, Amount, ExpenseDate (YYYY-MM-DD).</p>
+                        </div>
+
+                        <div class="expense-upload-columns text-center mb-3">
+                            <span class="expense-col-badge required">Category</span>
+                            <span class="expense-col-badge required">Amount</span>
+                            <span class="expense-col-badge required">ExpenseDate</span>
+                            <span class="expense-col-badge optional">Description</span>
+                        </div>
+
+                        <label for="expense_file" class="expense-dropzone d-block mb-3 cursor-to-pointer">
+                            <input type="file" name="expense_file" id="expense_file"
+                                   class="expense-file-input"
+                                   accept=".xlsx,.xls" required
+                                   style="display:none">
+                            <span class="expense-dropzone-title">Choose an Excel file</span>
+                            <span class="expense-dropzone-hint">.xlsx or .xls</span>
+                            <span id="expense_file_name" class="expense-file-name">No file selected</span>
+                        </label>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-outline-primary px-4">
+                                <i class="fa fa-upload" aria-hidden="true"></i> Upload expenses
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="col-lg-12">

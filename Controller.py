@@ -8,6 +8,9 @@ import humanize
 import json
 import web
 from bson import ObjectId
+from io import BytesIO
+
+import pandas as pd
 
 from Models import UserAccountModel, BookModel, FeelingsModel, LearningsModel, ExpenseModel, ReminderModel, JournalModel
 from Models import HealthModel, Common, MoviesModel, SettingsModel
@@ -44,6 +47,7 @@ urls = (
     '/savefeeling', 'SaveFeeling',
     '/expenses', 'Expenses',
     '/save_expense', 'Save_Expense',
+    '/upload_expenses', 'UploadExpenses',
     '/getcurrentmonthexpensedetails', 'GetCurrentMonthExpenseDetails',
     '/getAllExpenseTrend', 'AllExpenseTrend',
     '/movies', 'Movies',
@@ -656,6 +660,77 @@ class Save_Expense:
             return "success"
         else:
             return "error"
+
+
+class UploadExpenses:
+    def POST(self):
+        if session_data["user"] is None:
+            return json.dumps({"ok": 0, "failed": 0, "errors": ["Login required"]})
+
+        form = web.input(expense_file={})
+        uploaded = form.get("expense_file")
+        if uploaded is None or not getattr(uploaded, "filename", None):
+            return json.dumps({"ok": 0, "failed": 0, "errors": ["No Excel file uploaded"]})
+
+        try:
+            file_bytes = uploaded.file.read()
+            if not file_bytes:
+                file_bytes = uploaded.value
+            df = pd.read_excel(BytesIO(file_bytes))
+        except Exception as ex:
+            return json.dumps({"ok": 0, "failed": 0, "errors": ["Unable to read Excel file: " + str(ex)]})
+
+        required_columns = ["Category", "Amount", "ExpenseDate"]
+        if not all(column in df.columns for column in required_columns):
+            return json.dumps({
+                "ok": 0,
+                "failed": 0,
+                "errors": ["Excel must contain columns: Category, Amount, ExpenseDate"]
+            })
+
+        userid = session_data["user"]["UserId"]
+        expense = ExpenseModel.Expense()
+        ok_count = 0
+        failed_count = 0
+        errors = []
+
+        for index, row in df.iterrows():
+            try:
+                description = ""
+                if "Description" in df.columns and not pd.isna(row["Description"]):
+                    description = str(row["Description"])
+                if pd.isna(row["Category"]) or pd.isna(row["Amount"]):
+                    failed_count += 1
+                    errors.append("Row " + str(index) + ": Category and Amount are required")
+                    continue
+                if pd.isna(row["ExpenseDate"]):
+                    failed_count += 1
+                    errors.append("Row " + str(index) + ": ExpenseDate is required")
+                    continue
+                raw_date = row["ExpenseDate"]
+                if hasattr(raw_date, "to_pydatetime"):
+                    row_expense_date = raw_date.to_pydatetime().replace(
+                        hour=0, minute=0, second=0, microsecond=0)
+                else:
+                    row_expense_date = datetime.datetime.strptime(str(raw_date)[:10], "%Y-%m-%d")
+                send_data = {
+                    "UserId": userid,
+                    "ExpenseDate": row_expense_date,
+                    "Amount": int(float(row["Amount"])),
+                    "Category": str(row["Category"]).strip(),
+                    "Description": description
+                }
+                result = expense.createExpense(send_data)
+                if result:
+                    ok_count += 1
+                else:
+                    failed_count += 1
+                    errors.append("Row " + str(index) + ": failed to save")
+            except Exception as ex:
+                failed_count += 1
+                errors.append("Row " + str(index) + ": " + str(ex))
+
+        return json.dumps({"ok": ok_count, "failed": failed_count, "errors": errors})
 
 
 class GetCurrentMonthExpenseDetails:

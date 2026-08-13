@@ -233,6 +233,57 @@ $(document).ready(function () {
         })
     })
 
+    // Expense Excel upload
+    $(document).on("change", "#expense_file", function () {
+        var fileNameLabel = document.getElementById("expense_file_name");
+        if (!fileNameLabel) {
+            return;
+        }
+        if (this.files && this.files.length > 0) {
+            fileNameLabel.textContent = this.files[0].name;
+            fileNameLabel.classList.add("is-selected");
+        } else {
+            fileNameLabel.textContent = "No file selected";
+            fileNameLabel.classList.remove("is-selected");
+        }
+    });
+
+    $(document).on("submit", "#expense_excel_upload_form", function(e){
+        e.preventDefault();
+        var formElement = document.getElementById("expense_excel_upload_form");
+        var formData = new FormData(formElement);
+        $.ajax({
+            url: '/upload_expenses',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(result){
+                var summary;
+                try {
+                    summary = (typeof result === "string") ? JSON.parse(result) : result;
+                } catch (err) {
+                    alert("Unable to upload expenses");
+                    return;
+                }
+                if (summary.ok > 0 && summary.failed === 0) {
+                    alert("Uploaded " + summary.ok + " expense(s) successfully.");
+                    window.location.reload();
+                } else if (summary.ok > 0) {
+                    alert("Uploaded " + summary.ok + " expense(s). Failed: " + summary.failed +
+                          (summary.errors && summary.errors.length ? "\n" + summary.errors.slice(0, 5).join("\n") : ""));
+                    window.location.reload();
+                } else {
+                    alert("Upload failed." +
+                          (summary.errors && summary.errors.length ? "\n" + summary.errors.slice(0, 5).join("\n") : ""));
+                }
+            },
+            error: function(){
+                alert("Unable to upload expenses");
+            }
+        });
+    })
+
 
     //Journal save button / submit form
     $(document).on("submit", "#journal-entry-form", function(e){
