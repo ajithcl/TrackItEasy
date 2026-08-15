@@ -188,7 +188,10 @@ class Expense:
     def get_all_expense_trend(self, userid):
         # Group the records based on year and then month
         # Calculate monthly sum.
-        results = self.expensedata.aggregate([{"$match": {"UserId": userid}},
+        results = self.expensedata.aggregate([{"$match": {
+                                                  "UserId": userid,
+                                                  "ExpenseDate": {"$type": "date"}
+                                              }},
                                               {"$group": {
                                                   "_id": {"year": {"$year": "$ExpenseDate"},
                                                           "month": {"$month": "$ExpenseDate"}},
